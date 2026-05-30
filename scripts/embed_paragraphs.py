@@ -100,7 +100,7 @@ def main():
         )
 
         print(f"Batch {i+1}/{len(batches)} — {len(new)} parágrafos embedados.")
-        time.sleep(0.5)
+        time.sleep(60)
 
     print("Concluído.")
 
