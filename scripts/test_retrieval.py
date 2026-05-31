@@ -25,11 +25,11 @@ def search(question: str, n_results: int = 5):
     distances = results["distances"][0]
 
     for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
-        print(f"\n── Resultado {i+1} ──────────────────────────────")
+        print(f"\n--- Resultado {i+1} ---")
         print(f"Livro:     {meta['book_title']}")
-        print(f"Capítulo:  {meta['chapter_title']}")
+        print(f"Capitulo:  {meta['chapter_title']}")
         print(f"POV:       {meta['pov']}")
-        print(f"Distância: {dist:.4f}")
+        print(f"Distancia: {dist:.4f}")
         print(f"Texto:     {doc[:300]}...")
 
 if __name__ == "__main__":
