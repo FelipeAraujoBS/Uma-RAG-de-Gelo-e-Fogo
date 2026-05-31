@@ -3,3 +3,4 @@ uvicorn
 google-genai
 chromadb
 python-dotenv
+sentence-transformers

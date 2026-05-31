@@ -5,18 +5,19 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import sqlite3
 import time
 import chromadb
-from google import genai
+from sentence_transformers import SentenceTransformer
 from app.config import (
-    GOOGLE_API_KEY,
     DB_PATH,
     CHROMA_PATH,
-    EMBEDDING_MODEL,
     COLLECTION_NAME,
+    EMBEDDING_MODEL,
     BATCH_SIZE
 )
 
 # ── clientes ──────────────────────────────────────────────
-gemini = genai.Client(api_key=GOOGLE_API_KEY)
+print("Carregando modelo de embeddings...")
+model = SentenceTransformer(EMBEDDING_MODEL)
+
 chroma = chromadb.PersistentClient(path=CHROMA_PATH)
 collection = chroma.get_or_create_collection(COLLECTION_NAME)
 
@@ -43,11 +44,7 @@ def make_batches(paragraphs: list[dict]) -> list[list[dict]]:
 
 # ── stage 3: embeddings ───────────────────────────────────
 def embed_batch(texts: list[str]) -> list[list[float]]:
-    result = gemini.models.embed_content(
-        model=EMBEDDING_MODEL,
-        contents=texts
-    )
-    return [e.values for e in result.embeddings]
+    return model.encode(texts).tolist()
 
 # ── stage 4: checkpoint ───────────────────────────────────
 def filter_new(batch: list[dict]) -> list[dict]:
@@ -62,12 +59,12 @@ def build_id(paragraph: dict) -> str:
 
 def build_metadata(paragraph: dict) -> dict:
     return {
-        "book_number":    paragraph["book_number"],
-        "book_title":     paragraph["book_title"],
-        "chapter_number": paragraph["chapter_number"],
-        "chapter_title":  paragraph["chapter_title"],
-        "pov":            paragraph["pov"],
-        "paragraph_index": paragraph["paragraph_index"]
+        "book_number":     int(paragraph["book_number"] or 0),
+        "book_title":      str(paragraph["book_title"] or ""),
+        "chapter_number":  int(paragraph["chapter_number"] or 0),
+        "chapter_title":   str(paragraph["chapter_title"] or ""),
+        "pov":             str(paragraph["pov"] or ""),
+        "paragraph_index": int(paragraph["paragraph_index"] or 0)
     }
 
 # ── stage 5: pipeline principal ───────────────────────────
@@ -100,7 +97,6 @@ def main():
         )
 
         print(f"Batch {i+1}/{len(batches)} — {len(new)} parágrafos embedados.")
-        time.sleep(60)
 
     print("Concluído.")
 
