@@ -3,7 +3,7 @@ import os
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 import sqlite3
-import time
+import nltk
 import chromadb
 from sentence_transformers import SentenceTransformer
 from app.config import (
@@ -14,12 +14,20 @@ from app.config import (
     BATCH_SIZE
 )
 
+nltk.download("punkt_tab", quiet=True)
+
+SENTENCE_WINDOW = 2
+SENTENCE_STRIDE = 1
+
 # ── clientes ──────────────────────────────────────────────
 print("Carregando modelo de embeddings...")
 model = SentenceTransformer(EMBEDDING_MODEL)
 
 chroma = chromadb.PersistentClient(path=CHROMA_PATH)
-collection = chroma.get_or_create_collection(COLLECTION_NAME)
+collection = chroma.get_or_create_collection(
+    COLLECTION_NAME,
+    metadata={"hnsw:space": "cosine"}
+)
 
 # ── stage 1: leitura ──────────────────────────────────────
 def load_paragraphs() -> list[dict]:
@@ -35,46 +43,73 @@ def load_paragraphs() -> list[dict]:
     conn.close()
     return [dict(row) for row in rows]
 
-# ── stage 2: batching ─────────────────────────────────────
-def make_batches(paragraphs: list[dict]) -> list[list[dict]]:
-    return [
-        paragraphs[i : i + BATCH_SIZE]
-        for i in range(0, len(paragraphs), BATCH_SIZE)
-    ]
+# ── stage 2: chunking ─────────────────────────────────────
+def chunk_paragraph(text: str) -> list[str]:
+    sentences = nltk.sent_tokenize(text, language="portuguese")
+    if len(sentences) <= SENTENCE_WINDOW:
+        return [text]
 
-# ── stage 3: embeddings ───────────────────────────────────
+    chunks = []
+    for i in range(0, len(sentences) - SENTENCE_WINDOW + 1, SENTENCE_STRIDE):
+        chunk = " ".join(sentences[i : i + SENTENCE_WINDOW])
+        chunks.append(chunk)
+    return chunks
+
+
+def expand_paragraphs(paragraphs: list[dict]) -> list[dict]:
+    expanded = []
+    for p in paragraphs:
+        chunks = chunk_paragraph(p["text"])
+        for i, text in enumerate(chunks):
+            entry = {**p, "text": text, "chunk_index": i}
+            expanded.append(entry)
+    return expanded
+
+# ── stage 3: batching ─────────────────────────────────────
+def make_batches(chunks: list[dict]) -> list[list[dict]]:
+    return [chunks[i : i + BATCH_SIZE] for i in range(0, len(chunks), BATCH_SIZE)]
+
+# ── stage 4: embeddings ───────────────────────────────────
 def embed_batch(texts: list[str]) -> list[list[float]]:
     return model.encode(texts).tolist()
 
-# ── stage 4: checkpoint ───────────────────────────────────
+# ── stage 5: checkpoint ───────────────────────────────────
 def filter_new(batch: list[dict]) -> list[dict]:
-    ids = [build_id(p) for p in batch]
+    ids = [build_id(c) for c in batch]
     existing = collection.get(ids=ids)["ids"]
     existing_set = set(existing)
-    return [p for p in batch if build_id(p) not in existing_set]
+    return [c for c in batch if build_id(c) not in existing_set]
 
 # ── helpers ───────────────────────────────────────────────
-def build_id(paragraph: dict) -> str:
-    return f"b{paragraph['book_number']}_c{paragraph['chapter_number']}_p{paragraph['paragraph_index']}"
+def build_id(chunk: dict) -> str:
+    return (
+        f"b{chunk['book_number']}_c{chunk['chapter_number']}"
+        f"_p{chunk['paragraph_index']}_g{chunk['chunk_index']}"
+    )
 
-def build_metadata(paragraph: dict) -> dict:
+def build_metadata(chunk: dict) -> dict:
     return {
-        "book_number":     int(paragraph["book_number"] or 0),
-        "book_title":      str(paragraph["book_title"] or ""),
-        "chapter_number":  int(paragraph["chapter_number"] or 0),
-        "chapter_title":   str(paragraph["chapter_title"] or ""),
-        "pov":             str(paragraph["pov"] or ""),
-        "paragraph_index": int(paragraph["paragraph_index"] or 0)
+        "book_number":     int(chunk["book_number"] or 0),
+        "book_title":      str(chunk["book_title"] or ""),
+        "chapter_number":  int(chunk["chapter_number"] or 0),
+        "chapter_title":   str(chunk["chapter_title"] or ""),
+        "pov":             str(chunk["pov"] or ""),
+        "paragraph_index": int(chunk["paragraph_index"] or 0),
+        "chunk_index":     int(chunk["chunk_index"] or 0),
     }
 
-# ── stage 5: pipeline principal ───────────────────────────
+# ── stage 6: pipeline principal ───────────────────────────
 def main():
     print("Carregando parágrafos do SQLite...")
     paragraphs = load_paragraphs()
     print(f"{len(paragraphs)} parágrafos carregados.")
 
-    batches = make_batches(paragraphs)
-    print(f"{len(batches)} batches de {BATCH_SIZE} parágrafos.")
+    print("Expandindo parágrafos em chunks de sentenças...")
+    chunks = expand_paragraphs(paragraphs)
+    print(f"{len(chunks)} chunks gerados (window={SENTENCE_WINDOW}, stride={SENTENCE_STRIDE}).")
+
+    batches = make_batches(chunks)
+    print(f"{len(batches)} batches de {BATCH_SIZE} chunks.")
 
     for i, batch in enumerate(batches):
         new = filter_new(batch)
@@ -83,9 +118,9 @@ def main():
             print(f"Batch {i+1}/{len(batches)} — já existente, pulando.")
             continue
 
-        texts     = [p["text"] for p in new]
-        ids       = [build_id(p) for p in new]
-        metadatas = [build_metadata(p) for p in new]
+        texts     = [c["text"] for c in new]
+        ids       = [build_id(c) for c in new]
+        metadatas = [build_metadata(c) for c in new]
 
         embeddings = embed_batch(texts)
 
@@ -96,7 +131,7 @@ def main():
             metadatas=metadatas
         )
 
-        print(f"Batch {i+1}/{len(batches)} — {len(new)} parágrafos embedados.")
+        print(f"Batch {i+1}/{len(batches)} — {len(new)} chunks embedados.")
 
     print("Concluído.")
 
