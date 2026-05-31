@@ -1,0 +1,74 @@
+[
+  {
+    "question": "Quais são os nomes dos dragões da Daenerys?",
+    "ground_truth": "Drogon, Rhaegal e Viserion"
+  },
+  {
+    "question": "Quem é o pai de Jon Snow?",
+    "ground_truth": "Rhaegar Targaryen"
+  },
+  {
+    "question": "Qual é o nome da espada de aço valiriano de Ned Stark?",
+    "ground_truth": "Gelo"
+  },
+  {
+    "question": "Quem matou o Rei Louco Aerys Targaryen?",
+    "ground_truth": "Jaime Lannister"
+  },
+  {
+    "question": "Qual casa tem como lema 'Inverno está chegando'?",
+    "ground_truth": "Casa Stark"
+  },
+  {
+    "question": "Como Tyrion Lannister ficou com a cicatriz no rosto?",
+    "ground_truth": "Na Batalha do Blackwater, quando o Sor Mandon Moore tentou matá-lo e ele foi cortado no rosto"
+  },
+  {
+    "question": "O que é a Muralha e quem a construiu?",
+    "ground_truth": "A Muralha é uma enorme barreira de gelo no norte de Westeros, construída pelos construtores da Patrulha da Noite e pelos Filhos da Floresta, com a ajuda de gigantes e magia, há mais de 8.000 anos"
+  },
+  {
+    "question": "Quem é o três olhos corvo?",
+    "ground_truth": "Brynden Rivers, também conhecido como Corvo de Sangue, um ex-comandante da Patrulha da Noite e Targaryen bastardo"
+  },
+  {
+    "question": "O que aconteceu em Casamento Vermelho?",
+    "ground_truth": "Robb Stark, sua mãe Catelyn e muitos de seus vassalos foram assassinados durante um casamento em Correrrio, pelos Frey e Boltons, violando as leis de hospitalidade"
+  },
+  {
+    "question": "Quem é Azor Ahai?",
+    "ground_truth": "Um herói lendário da antiga Valíria que forjou a espada Luminífera (Lightbringer) para lutar contra a escuridão"
+  },
+  {
+    "question": "Onde Daenerys chocou seus ovos de dragão?",
+    "ground_truth": "Na pira funerária de Khal Drogo, em meio ao deserto vermelho além do Mar Dothraki"
+  },
+  {
+    "question": "Quem é o rei da noite?",
+    "ground_truth": "O líder dos Caminhantes Brancos, uma criatura lendária criada pelos Filhos da Floresta"
+  },
+  {
+    "question": "Por que Sor Jorah Mormont foi exilado de Westeros?",
+    "ground_truth": "Por vender caçadores ilegais para escravistas, um crime punível com a morte"
+  },
+  {
+    "question": "O que é a cidadela?",
+    "ground_truth": "A Cidadela é a ordem dos meistres, localizada em Vilavela, onde os meistres são treinados"
+  },
+  {
+    "question": "Como Jaime Lannister perdeu a mão?",
+    "ground_truth": "Foi cortada por Locke, um homem dos Bolton, durante sua captura no rio Tridente"
+  },
+  {
+    "question": "Quem é o chefe da guarda real de Robert Baratheon?",
+    "ground_truth": "Sor Barristan Selmy"
+  },
+  {
+    "question": "O que é a profecia do príncipe que foi prometido?",
+    "ground_truth": "Uma profecia antiga que diz que um herói renascerá para salvar o mundo da escuridão, brandindo a espada Luminífera"
+  },
+  {
+    "question": "Qual casa comanda Pedra do Dragão no início da série?",
+    "ground_truth": "Casa Baratheon, sob Stannis Baratheon"
+  }
+]
