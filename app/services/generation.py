@@ -1,7 +1,10 @@
-from google import genai
-from app.config import GOOGLE_API_KEY, GENERATION_MODEL
+from openai import OpenAI
+from app.config import GROQ_API_KEY, GROQ_MODEL
 
-client = genai.Client(api_key=GOOGLE_API_KEY)
+client = OpenAI(
+    api_key=GROQ_API_KEY,
+    base_url="https://api.groq.com/openai/v1",
+)
 
 
 def generate(question: str, context: str) -> str:
@@ -14,8 +17,8 @@ def generate(question: str, context: str) -> str:
         "Se o contexto não tiver informação suficiente, diga que não sabe."
     )
 
-    response = client.models.generate_content(
-        model=GENERATION_MODEL,
-        contents=[prompt],
+    response = client.chat.completions.create(
+        model=GROQ_MODEL,
+        messages=[{"role": "user", "content": prompt}],
     )
-    return response.text
+    return response.choices[0].message.content
