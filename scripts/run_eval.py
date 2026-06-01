@@ -10,13 +10,13 @@ QUESTIONS_PATH = os.path.join(os.path.dirname(__file__), "..", "eval", "question
 # ── services ──────────────────────────────────────────────
 from sentence_transformers import SentenceTransformer
 import chromadb
-from google import genai
-from app.config import CHROMA_PATH, COLLECTION_NAME, EMBEDDING_MODEL, GOOGLE_API_KEY, GENERATION_MODEL
+from openai import OpenAI
+from app.config import CHROMA_PATH, COLLECTION_NAME, EMBEDDING_MODEL, GROQ_API_KEY, GROQ_MODEL
 
 model = SentenceTransformer(EMBEDDING_MODEL)
 chroma = chromadb.PersistentClient(path=CHROMA_PATH)
 collection = chroma.get_collection(COLLECTION_NAME)
-llm = genai.Client(api_key=GOOGLE_API_KEY)
+llm = OpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
 
 
 # ── retrieval ─────────────────────────────────────────────
@@ -40,13 +40,19 @@ def generate_answer(question: str, contexts: list[str]) -> str:
         "Responda de forma clara e concisa. "
         "Se o contexto nao tiver informacao suficiente, diga que nao sabe."
     )
-    response = llm.models.generate_content(model=GENERATION_MODEL, contents=[prompt])
-    return response.text
+    response = llm.chat.completions.create(
+        model=GROQ_MODEL,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    return response.choices[0].message.content
 
 
 def llm_call(prompt: str) -> str:
-    response = llm.models.generate_content(model=GENERATION_MODEL, contents=[prompt])
-    return response.text.strip()
+    response = llm.chat.completions.create(
+        model=GROQ_MODEL,
+        messages=[{"role": "user", "content": prompt}],
+    )
+    return response.choices[0].message.content.strip()
 
 
 # ── metric: context_precision ─────────────────────────────
@@ -159,7 +165,7 @@ def main():
 
     all_metrics = []
 
-    for i, q in enumerate(questions):
+    for i, q in enumerate(questions[:5]):
         question = q["question"]
         ground_truth = q["ground_truth"]
 
@@ -185,16 +191,16 @@ def main():
             "question": question,
             "answer": answer,
             "ground_truth": ground_truth,
-            "context_precision": round(cp, 4),
-            "answer_relevancy": round(ar, 4),
-            "context_recall": round(cr, 4),
-            "faithfulness": round(fh, 4),
-            "avg_distance": round(avg_dist, 4),
+            "context_precision": float(round(cp, 4)),
+            "answer_relevancy": float(round(ar, 4)),
+            "context_recall": float(round(cr, 4)),
+            "faithfulness": float(round(fh, 4)),
+            "avg_distance": float(round(avg_dist, 4)),
             "sources": [
                 {
                     "book": m["book_title"],
                     "chapter": m["chapter_title"],
-                    "distance": round(d, 4),
+                    "distance": float(round(d, 4)),
                     "text_preview": c[:120],
                 }
                 for m, d, c in zip(metadatas, distances, contexts)

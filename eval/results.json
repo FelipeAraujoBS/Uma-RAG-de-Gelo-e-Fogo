@@ -1,0 +1,212 @@
+[
+  {
+    "question": "Quais são os nomes dos dragões da Daenerys?",
+    "answer": "Não há informações suficientes no contexto fornecido para saber os nomes dos dragões da Daenerys.",
+    "ground_truth": "Drogon, Rhaegal e Viserion",
+    "context_precision": 0.7580000162124634,
+    "answer_relevancy": 0.894599974155426,
+    "context_recall": 0.2,
+    "faithfulness": 1.0,
+    "avg_distance": 0.242,
+    "sources": [
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Tyrion VII",
+        "distance": 0.2292,
+        "text_preview": "Não dois. Daenerys tem dragões, Aegon, não ."
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Daenerys II",
+        "distance": 0.2358,
+        "text_preview": "Mãe de dragões , Daenerys pensou. Mãe de monstros."
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Daenerys X",
+        "distance": 0.2451,
+        "text_preview": "Os senhores de dragões da antiga Valíria controlavam suas montarias com feitiços de ligação e cornos mágicos. Daenerys f"
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Barristan Selmy II",
+        "distance": 0.2485,
+        "text_preview": "Quem disse que os gafanhotos eram destinados a Daenerys? Estavam no camarote do próprio rei."
+      },
+      {
+        "book": "O Príncipe de Westeros",
+        "chapter": "A árvore reluzente",
+        "distance": 0.2513,
+        "text_preview": "— E dragões?"
+      }
+    ]
+  },
+  {
+    "question": "Quem é o pai de Jon Snow?",
+    "answer": "Não sei. O contexto menciona que Jon Snow tem a cara do seu pai, mas não fornece informações sobre quem é o pai de Jon Snow.",
+    "ground_truth": "Rhaegar Targaryen",
+    "context_precision": 0.8159999847412109,
+    "answer_relevancy": 0.8841000199317932,
+    "context_recall": 0.0,
+    "faithfulness": 0.5,
+    "avg_distance": 0.184,
+    "sources": [
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Bran IV",
+        "distance": 0.159,
+        "text_preview": "— É o irmão de Jon Snow. Aquele que caiu…"
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Jon XIII",
+        "distance": 0.1749,
+        "text_preview": "– Jon Snow."
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Jon V",
+        "distance": 0.1848,
+        "text_preview": "– Sou Jon Snow."
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Jon VIII",
+        "distance": 0.1947,
+        "text_preview": "– Você é Jon Snow. Tem a cara do seu pai."
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Jon III",
+        "distance": 0.2067,
+        "text_preview": "– É o meu intendente e escudeiro, Jon Snow."
+      }
+    ]
+  },
+  {
+    "question": "Qual é o nome da espada de aço valiriano de Ned Stark?",
+    "answer": "Não há informação suficiente no contexto para determinar o nome da espada de aço valiriano de Ned Stark. O contexto menciona que a espada foi oferecida ao Magistrado do Rei, mas não fornece o nome da espada. Apenas se sabe que o nome da espada de aço valiriano dos Lannister é \"Rugido Brilhante\".",
+    "ground_truth": "Gelo",
+    "context_precision": 0.7258999943733215,
+    "answer_relevancy": 0.8765000104904175,
+    "context_recall": 0.0,
+    "faithfulness": 0.3333,
+    "avg_distance": 0.2741,
+    "sources": [
+      {
+        "book": "O Cavaleiro dos Sete Reinos",
+        "chapter": "O Cavaleiro Andante",
+        "distance": 0.2563,
+        "text_preview": "Um punhal, uma navalha, uma pedra de amolar. Grevas e gorjal, uma lança de guerra de madeira de freixo torneada de dois "
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Victarion Greyjoy I",
+        "distance": 0.2657,
+        "text_preview": "Uma espada longa na mão de um fantasma. Serry, aquele tinha sido o nome dele."
+      },
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "AS TERRAS OCIDENTAIS",
+        "distance": 0.2709,
+        "text_preview": "Rugido Brilhante, a espada de aço valiriano dos Lannister."
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Jon II",
+        "distance": 0.2818,
+        "text_preview": "Olhou a espada que tinha na mão. – E esta, tem nome?"
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Jaime IX",
+        "distance": 0.2957,
+        "text_preview": "Bale como uma porcaria de uma ovelha . — Quando Ned Stark morreu, a espada larga dele foi oferecida ao Magistrado do Rei"
+      }
+    ]
+  },
+  {
+    "question": "Quem matou o Rei Louco Aerys Targaryen?",
+    "answer": "Jaime, também conhecido como o Regicida, é mencionado como o perjuro que assassinou o Rei Aerys Targaryen.",
+    "ground_truth": "Jaime Lannister",
+    "context_precision": 0.7886000275611877,
+    "answer_relevancy": 0.673799991607666,
+    "context_recall": 0.2857,
+    "faithfulness": 0.5,
+    "avg_distance": 0.2114,
+    "sources": [
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Jaime V",
+        "distance": 0.1569,
+        "text_preview": "— No Regicida, sim. O perjuro que assassinou o pobrezinho do Aerys Targaryen."
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Jaime V",
+        "distance": 0.2145,
+        "text_preview": "O perjuro que assassinou o pobrezinho do Aerys Targaryen. — Jaime fungou."
+      },
+      {
+        "book": "Fogo e Sangue",
+        "chapter": "A Conquista de Aegon",
+        "distance": 0.2277,
+        "text_preview": "A sucessão Targaryen: Datada dos anos após a Conquista de Aegon"
+      },
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "ÍNDICE REMISSIVO",
+        "distance": 0.2282,
+        "text_preview": "Targaryen, Aegon, Príncipe de Pedra do Dragão (filho de Aenys I) 53 , 56 , 157 , 198"
+      },
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "ÍNDICE REMISSIVO",
+        "distance": 0.2298,
+        "text_preview": "Aenar, o Targaryen exilado 26 , 32-33"
+      }
+    ]
+  },
+  {
+    "question": "Qual casa tem como lema 'Inverno está chegando'?",
+    "answer": "A Casa Stark tem como lema \"Inverno está chegando\".",
+    "ground_truth": "Casa Stark",
+    "context_precision": 0.6586999893188477,
+    "answer_relevancy": 0.4235999882221222,
+    "context_recall": 0.0,
+    "faithfulness": 0.0,
+    "avg_distance": 0.3413,
+    "sources": [
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Eddard I",
+        "distance": 0.3225,
+        "text_preview": "– Como será este lugar no inverno? Estremeço só de pensar."
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Barristan Selmy III",
+        "distance": 0.3397,
+        "text_preview": "Chuva , pensou . Uma tempestade está chegando."
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Theon VI",
+        "distance": 0.3407,
+        "text_preview": "– O inverno está chegando..."
+      },
+      {
+        "book": "O Príncipe de Westeros",
+        "chapter": "A árvore reluzente",
+        "distance": 0.3407,
+        "text_preview": "— Está esfriando à noite. O inverno está chegando."
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Barristan Selmy III",
+        "distance": 0.3629,
+        "text_preview": "Uma tempestade está chegando. Se não esta noite, amanhã."
+      }
+    ]
+  }
+]
