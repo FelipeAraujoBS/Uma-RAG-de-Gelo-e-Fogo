@@ -2,29 +2,16 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
-import chromadb
-from sentence_transformers import SentenceTransformer
-from app.config import CHROMA_PATH, COLLECTION_NAME, EMBEDDING_MODEL
+from app.services.retrieval import search
 
-# ── clientes ──────────────────────────────────────────────
-model = SentenceTransformer(EMBEDDING_MODEL)
-chroma = chromadb.PersistentClient(path=CHROMA_PATH)
-collection = chroma.get_or_create_collection(COLLECTION_NAME)
 
-# ── busca ─────────────────────────────────────────────────
-def search(question: str, n_results: int = 5):
-    embedding = model.encode(question).tolist()
+def main():
+    question = input("Pergunta: ")
+    results = search(question, n_results=5)
 
-    results = collection.query(
-        query_embeddings=[embedding],
-        n_results=n_results
-    )
-
-    documents = results["documents"][0]
-    metadatas = results["metadatas"][0]
-    distances = results["distances"][0]
-
-    for i, (doc, meta, dist) in enumerate(zip(documents, metadatas, distances)):
+    for i, (doc, meta, dist) in enumerate(
+        zip(results["documents"], results["metadatas"], results["distances"])
+    ):
         print(f"\n--- Resultado {i+1} ---")
         print(f"Livro:     {meta['book_title']}")
         print(f"Capitulo:  {meta['chapter_title']}")
@@ -32,6 +19,6 @@ def search(question: str, n_results: int = 5):
         print(f"Distancia: {dist:.4f}")
         print(f"Texto:     {doc[:300]}...")
 
+
 if __name__ == "__main__":
-    question = input("Pergunta: ")
-    search(question)
+    main()
