@@ -1,33 +1,28 @@
 import sys
 import os
 import json
-import re
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 QUESTIONS_PATH = os.path.join(os.path.dirname(__file__), "..", "eval", "questions.json")
 
-# ── services ──────────────────────────────────────────────
-from sentence_transformers import SentenceTransformer
-import chromadb
 from openai import OpenAI
-from app.config import CHROMA_PATH, COLLECTION_NAME, EMBEDDING_MODEL, GROQ_API_KEY, GROQ_MODEL
+from app.services.retrieval import search as retrieve, model
+from app.config import GROQ_API_KEY, GROQ_MODEL
 
-model = SentenceTransformer(EMBEDDING_MODEL)
-chroma = chromadb.PersistentClient(path=CHROMA_PATH)
-collection = chroma.get_collection(COLLECTION_NAME)
 llm = OpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
 
 
-# ── retrieval ─────────────────────────────────────────────
-def retrieve(question: str, n_results: int = 5) -> dict:
-    embedding = model.encode(question).tolist()
-    results = collection.query(query_embeddings=[embedding], n_results=n_results)
-    return {
-        "documents": results["documents"][0],
-        "metadatas": results["metadatas"][0],
-        "distances": results["distances"][0],
-    }
+def _encode_query(text):
+    if isinstance(text, str):
+        return model.encode(f"Represent this sentence for searching relevant passages: {text}")
+    return model.encode([f"Represent this sentence for searching relevant passages: {t}" for t in text])
+
+
+def _encode_doc(text):
+    if isinstance(text, str):
+        return model.encode(text)
+    return model.encode(text)
 
 
 def generate_answer(question: str, contexts: list[str]) -> str:
@@ -55,10 +50,9 @@ def llm_call(prompt: str) -> str:
     return response.choices[0].message.content.strip()
 
 
-# ── metric: context_precision ─────────────────────────────
 def context_precision(question: str, contexts: list[str]) -> float:
-    q_emb = model.encode(question)
-    c_embs = model.encode(contexts)
+    q_emb = _encode_query(question)
+    c_embs = _encode_doc(contexts)
     sims = []
     for c_emb in c_embs:
         dot = sum(a * b for a, b in zip(q_emb, c_emb))
@@ -68,7 +62,6 @@ def context_precision(question: str, contexts: list[str]) -> float:
     return sum(sims) / len(sims) if sims else 0.0
 
 
-# ── metric: context_recall (LLM-as-judge) ─────────────────
 def context_recall(question: str, contexts: list[str], ground_truth: str) -> float:
     context_text = "\n\n".join(contexts)
 
@@ -99,7 +92,6 @@ def context_recall(question: str, contexts: list[str], ground_truth: str) -> flo
     return supported / len(claims) if claims else 0.0
 
 
-# ── metric: faithfulness (LLM-as-judge) ────────────────────
 def faithfulness(answer: str, contexts: list[str]) -> float:
     context_text = "\n\n".join(contexts)
 
@@ -130,7 +122,6 @@ def faithfulness(answer: str, contexts: list[str]) -> float:
     return supported / len(claims) if claims else 1.0
 
 
-# ── metric: answer_relevancy (RAGAS-style) ─────────────────
 def answer_relevancy(question: str, answer: str) -> float:
     gen_prompt = (
         "Gere 3 perguntas diferentes que poderiam ter gerado esta resposta. "
@@ -143,8 +134,8 @@ def answer_relevancy(question: str, answer: str) -> float:
     if not gen_questions:
         return 0.0
 
-    q_emb = model.encode(question)
-    gen_embs = model.encode(gen_questions)
+    q_emb = _encode_query(question)
+    gen_embs = _encode_query(gen_questions)
 
     scores = []
     for g_emb in gen_embs:
@@ -156,7 +147,6 @@ def answer_relevancy(question: str, answer: str) -> float:
     return sum(scores) / len(scores) if scores else 0.0
 
 
-# ── main ──────────────────────────────────────────────────
 def main():
     with open(QUESTIONS_PATH, encoding="utf-8") as f:
         questions = json.load(f)
@@ -171,16 +161,13 @@ def main():
 
         print(f"[{i+1}/{len(questions)}] {question[:70]}")
 
-        # retrieval
         results = retrieve(question)
         contexts = results["documents"]
         distances = results["distances"]
         metadatas = results["metadatas"]
 
-        # generation
         answer = generate_answer(question, contexts)
 
-        # metrics
         cp = context_precision(question, contexts)
         ar = answer_relevancy(question, answer)
         cr = context_recall(question, contexts, ground_truth)
@@ -215,7 +202,6 @@ def main():
         print(f"  Resposta:        {answer[:100]}...")
         print()
 
-    # ── summary ──
     avg_cp = sum(m["context_precision"] for m in all_metrics) / len(all_metrics)
     avg_ar = sum(m["answer_relevancy"] for m in all_metrics) / len(all_metrics)
     avg_cr = sum(m["context_recall"] for m in all_metrics) / len(all_metrics)
@@ -240,7 +226,7 @@ def main():
         print("  ! Context Precision baixo — chunks recuperados tem baixa")
         print("    relevancia para a pergunta.")
     if avg_fh < 0.7:
-        print("  ! Faithfulness baixo — a resposta do Gemini contem informacoes")
+        print("  ! Faithfulness baixo — a resposta contem informacoes")
         print("    que nao estao nos chunks recuperados.")
 
     out_path = os.path.join(os.path.dirname(__file__), "..", "eval", "results.json")

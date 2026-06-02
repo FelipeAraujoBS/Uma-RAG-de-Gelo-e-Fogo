@@ -1,5 +1,6 @@
 import sys
 import os
+import argparse
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
 import sqlite3
@@ -16,18 +17,14 @@ from app.config import (
 
 nltk.download("punkt_tab", quiet=True)
 
-SENTENCE_WINDOW = 2
-SENTENCE_STRIDE = 1
+SENTENCE_WINDOW = 5
+SENTENCE_STRIDE = 3
 
 # ── clientes ──────────────────────────────────────────────
 print("Carregando modelo de embeddings...")
 model = SentenceTransformer(EMBEDDING_MODEL)
 
 chroma = chromadb.PersistentClient(path=CHROMA_PATH)
-collection = chroma.get_or_create_collection(
-    COLLECTION_NAME,
-    metadata={"hnsw:space": "cosine"}
-)
 
 # ── stage 1: leitura ──────────────────────────────────────
 def load_paragraphs() -> list[dict]:
@@ -74,7 +71,7 @@ def embed_batch(texts: list[str]) -> list[list[float]]:
     return model.encode(texts).tolist()
 
 # ── stage 5: checkpoint ───────────────────────────────────
-def filter_new(batch: list[dict]) -> list[dict]:
+def filter_new(batch: list[dict], collection) -> list[dict]:
     ids = [build_id(c) for c in batch]
     existing = collection.get(ids=ids)["ids"]
     existing_set = set(existing)
@@ -100,6 +97,21 @@ def build_metadata(chunk: dict) -> dict:
 
 # ── stage 6: pipeline principal ───────────────────────────
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--rebuild", action="store_true", help="Remove coleção existente antes de re-embedar")
+    args = parser.parse_args()
+
+    collection = chroma.get_or_create_collection(
+        COLLECTION_NAME,
+        metadata={"hnsw:space": "cosine"}
+    )
+
+    if args.rebuild:
+        print("Limpando coleção existente...")
+        n_total = collection.count()
+        if n_total:
+            collection.delete(collection.get()["ids"])
+            print(f"Removidos {n_total} chunks antigos.\n")
     print("Carregando parágrafos do SQLite...")
     paragraphs = load_paragraphs()
     print(f"{len(paragraphs)} parágrafos carregados.")
@@ -112,7 +124,7 @@ def main():
     print(f"{len(batches)} batches de {BATCH_SIZE} chunks.")
 
     for i, batch in enumerate(batches):
-        new = filter_new(batch)
+        new = filter_new(batch, collection)
 
         if not new:
             print(f"Batch {i+1}/{len(batches)} — já existente, pulando.")
