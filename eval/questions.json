@@ -5,7 +5,7 @@
   },
   {
     "question": "Quem é o pai de Jon Snow?",
-    "ground_truth": "Rhaegar Targaryen"
+    "ground_truth": "Ned Stark"
   },
   {
     "question": "Qual é o nome da espada de aço valiriano de Ned Stark?",
@@ -45,7 +45,7 @@
   },
   {
     "question": "Quem é o rei da noite?",
-    "ground_truth": "O líder dos Caminhantes Brancos, uma criatura lendária criada pelos Filhos da Floresta"
+    "ground_truth": "O Rei da Noite é uma figura lendaria do folclore de Westeros"
   },
   {
     "question": "Por que Sor Jorah Mormont foi exilado de Westeros?",
@@ -57,7 +57,7 @@
   },
   {
     "question": "Como Jaime Lannister perdeu a mão?",
-    "ground_truth": "Foi cortada por Locke, um homem dos Bolton, durante sua captura no rio Tridente"
+    "ground_truth": "Foi cortada por Vargo Hoat, durante sua captura no rio Tridente"
   },
   {
     "question": "Quem é o chefe da guarda real de Robert Baratheon?",

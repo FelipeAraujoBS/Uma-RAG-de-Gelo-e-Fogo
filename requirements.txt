@@ -1,8 +1,9 @@
 fastapi
 uvicorn
-google-genai
+openai
 chromadb
 python-dotenv
 sentence-transformers
 rank-bm25
 nltk
+numpy
