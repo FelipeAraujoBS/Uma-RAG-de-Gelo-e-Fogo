@@ -10,11 +10,13 @@ client = AsyncOpenAI(
 async def generate(question: str, context: str) -> str:
     prompt = (
         "Você é um especialista em As Crônicas de Gelo e Fogo. "
-        "Responda à pergunta abaixo com base apenas no contexto fornecido.\n\n"
+        "Responda à pergunta abaixo usando o contexto fornecido como fonte principal, "
+        "mas você pode complementar com seu conhecimento próprio se necessário.\n\n"
         f"Contexto:\n{context}\n\n"
         f"Pergunta: {question}\n\n"
         "Responda de forma clara e concisa. "
-        "Se o contexto não tiver informação suficiente, diga que não sabe."
+        "Se o contexto tiver a informação, cite-o. Se não tiver, use seu conhecimento, "
+        "mas avise que a informação não está nos trechos recuperados."
     )
 
     response = await client.chat.completions.create(
