@@ -1,0 +1,15 @@
+venv
+.git
+.gitignore
+.gitattributes
+.env
+__pycache__
+*.pyc
+*.pyo
+.DS_Store
+*.log
+venv
+.vscode
+.idea
+test_meta
+eval

@@ -1,3 +1,5 @@
+import asyncio
+
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from app.services.retrieval import search
@@ -23,9 +25,9 @@ class ChatResponse(BaseModel):
 
 
 @router.post("/chat", response_model=ChatResponse)
-def chat(request: ChatRequest):
+async def chat(request: ChatRequest):
     try:
-        results = search(request.question)
+        results = await asyncio.to_thread(search, request.question)
         context = "\n\n".join(results["documents"])
         sources = [
             Source(
@@ -36,7 +38,7 @@ def chat(request: ChatRequest):
             )
             for meta, dist in zip(results["metadatas"], results["distances"])
         ]
-        answer = generate(request.question, context)
+        answer = await generate(request.question, context)
         return ChatResponse(answer=answer, sources=sources)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

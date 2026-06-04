@@ -1,6 +1,7 @@
 import sys
 import os
 import json
+import time
 
 sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 
@@ -10,7 +11,12 @@ from openai import OpenAI
 from app.services.retrieval import search as retrieve, model
 from app.config import GROQ_API_KEY, GROQ_MODEL
 
+# Groq models tem TPD separado por modelo. Usando 8B que tem limite maior
+EVAL_MODEL = "llama-3.1-8b-instant"
 llm = OpenAI(api_key=GROQ_API_KEY, base_url="https://api.groq.com/openai/v1")
+
+RATE_LIMIT_DELAY = 2.0
+MAX_RETRIES = 5
 
 
 def _encode_query(text):
@@ -25,6 +31,28 @@ def _encode_doc(text):
     return model.encode(text)
 
 
+def _llm_request(prompt: str) -> str:
+    for attempt in range(MAX_RETRIES):
+        try:
+            response = llm.chat.completions.create(
+                model=EVAL_MODEL,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            return response.choices[0].message.content
+        except Exception as e:
+            error_msg = str(e)
+            print(f"  ! Erro (tentativa {attempt+1}/{MAX_RETRIES}): {error_msg[:100]}")
+            if "TPD" in error_msg or "tokens per day" in error_msg:
+                print(f"  ! TPD excedido. Esperando 30s...")
+                time.sleep(30)
+            elif "Rate limit" in error_msg:
+                print(f"  ! Rate limit. Esperando 10s...")
+                time.sleep(10)
+            else:
+                time.sleep(5)
+    raise Exception(f"Falhou apos {MAX_RETRIES} tentativas: {error_msg}")
+
+
 def generate_answer(question: str, contexts: list[str]) -> str:
     context = "\n\n".join(contexts)
     prompt = (
@@ -35,19 +63,15 @@ def generate_answer(question: str, contexts: list[str]) -> str:
         "Responda de forma clara e concisa. "
         "Se o contexto nao tiver informacao suficiente, diga que nao sabe."
     )
-    response = llm.chat.completions.create(
-        model=GROQ_MODEL,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.choices[0].message.content
+    result = _llm_request(prompt)
+    time.sleep(RATE_LIMIT_DELAY)
+    return result
 
 
 def llm_call(prompt: str) -> str:
-    response = llm.chat.completions.create(
-        model=GROQ_MODEL,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    return response.choices[0].message.content.strip()
+    result = _llm_request(prompt)
+    time.sleep(RATE_LIMIT_DELAY)
+    return result.strip()
 
 
 def context_precision(question: str, contexts: list[str]) -> float:
@@ -147,24 +171,46 @@ def answer_relevancy(question: str, answer: str) -> float:
     return sum(scores) / len(scores) if scores else 0.0
 
 
+OUT_PATH = os.path.join(os.path.dirname(__file__), "..", "eval", "results.json")
+
+
+def load_done(out_path: str) -> dict:
+    """Carrega respostas ja salvas para poder retomar."""
+    if not os.path.exists(out_path):
+        return {}
+    with open(out_path, encoding="utf-8") as f:
+        existing = json.load(f)
+    return {e["question"]: e for e in existing}
+
+
+def save_results(all_metrics: list, out_path: str):
+    with open(out_path, "w", encoding="utf-8") as f:
+        json.dump(all_metrics, f, ensure_ascii=False, indent=2)
+
+
 def main():
     with open(QUESTIONS_PATH, encoding="utf-8") as f:
         questions = json.load(f)
 
-    print(f"Carregadas {len(questions)} perguntas de eval.\n")
+    done = load_done(OUT_PATH)
+    all_metrics = list(done.values())
+    print(f"Carregadas {len(questions)} perguntas. {len(all_metrics)} ja concluidas.\n")
 
-    all_metrics = []
-
-    for i, q in enumerate(questions[:5]):
+    for i, q in enumerate(questions):
         question = q["question"]
         ground_truth = q["ground_truth"]
+
+        if question in done:
+            print(f"[{i+1}/{len(questions)}] {question[:60]} — ja concluida, pulando.")
+            continue
 
         print(f"[{i+1}/{len(questions)}] {question[:70]}")
 
         results = retrieve(question)
-        contexts = results["documents"]
-        distances = results["distances"]
-        metadatas = results["metadatas"]
+        # Usa so 5 chunks pra caber dentro do TPD do Groq free
+        contexts = results["documents"][:5]
+        distances = results["distances"][:5]
+        metadatas = results["metadatas"][:5]
 
         answer = generate_answer(question, contexts)
 
@@ -174,7 +220,7 @@ def main():
         fh = faithfulness(answer, contexts)
         avg_dist = sum(distances) / len(distances)
 
-        all_metrics.append({
+        entry = {
             "question": question,
             "answer": answer,
             "ground_truth": ground_truth,
@@ -192,7 +238,9 @@ def main():
                 }
                 for m, d, c in zip(metadatas, distances, contexts)
             ],
-        })
+        }
+        all_metrics.append(entry)
+        save_results(all_metrics, OUT_PATH)
 
         print(f"  CP (precision):  {cp:.3f}")
         print(f"  AR (relevancy):  {ar:.3f}")
@@ -212,27 +260,24 @@ def main():
     print("RESUMO FINAL")
     print("=" * 60)
     print(f"  Perguntas:           {len(all_metrics)}")
-    print(f"  Context Precision:   {avg_cp:.3f}  (quanto mais alto, melhor)")
-    print(f"  Answer Relevancy:    {avg_ar:.3f}  (quanto mais alto, melhor)")
-    print(f"  Context Recall:      {avg_cr:.3f}  (quanto mais alto, melhor)")
-    print(f"  Faithfulness:        {avg_fh:.3f}  (quanto mais alto, melhor)")
-    print(f"  Cosine Distance:     {avg_dist:.3f}  (quanto mais baixo, melhor)")
+    print(f"  Context Precision:   {avg_cp:.3f}")
+    print(f"  Answer Relevancy:    {avg_ar:.3f}")
+    print(f"  Context Recall:      {avg_cr:.3f}")
+    print(f"  Faithfulness:        {avg_fh:.3f}")
+    print(f"  Cosine Distance:     {avg_dist:.3f}")
     print()
 
     if avg_cr < 0.5:
-        print("  ! Context Recall baixo — os chunks recuperados nao contem")
+        print("  ! Context Recall baixo - os chunks recuperados nao contem")
         print("    a informacao necessaria para responder.")
     if avg_cp < 0.6:
-        print("  ! Context Precision baixo — chunks recuperados tem baixa")
+        print("  ! Context Precision baixo - chunks recuperados tem baixa")
         print("    relevancia para a pergunta.")
     if avg_fh < 0.7:
-        print("  ! Faithfulness baixo — a resposta contem informacoes")
+        print("  ! Faithfulness baixo - a resposta contem informacoes")
         print("    que nao estao nos chunks recuperados.")
 
-    out_path = os.path.join(os.path.dirname(__file__), "..", "eval", "results.json")
-    with open(out_path, "w", encoding="utf-8") as f:
-        json.dump(all_metrics, f, ensure_ascii=False, indent=2)
-    print(f"\nResultados salvos em {out_path}")
+    print(f"\nResultados salvos em {OUT_PATH}")
 
 
 if __name__ == "__main__":
