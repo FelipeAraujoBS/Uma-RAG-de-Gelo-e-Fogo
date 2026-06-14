@@ -50,6 +50,11 @@ def chunk_paragraph(text: str) -> list[str]:
     for i in range(0, len(sentences) - SENTENCE_WINDOW + 1, SENTENCE_STRIDE):
         chunk = " ".join(sentences[i : i + SENTENCE_WINDOW])
         chunks.append(chunk)
+
+    last_start = len(sentences) - SENTENCE_WINDOW
+    if chunks and (len(sentences) - SENTENCE_WINDOW) % SENTENCE_STRIDE != 0:
+        chunks.append(" ".join(sentences[last_start:]))
+
     return chunks
 
 

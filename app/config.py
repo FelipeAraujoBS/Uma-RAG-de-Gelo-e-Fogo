@@ -6,6 +6,7 @@ load_dotenv()
 GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 DB_PATH = os.getenv("DB_PATH", "../backend/database.db")
 CHROMA_PATH = os.getenv("CHROMA_PATH", "./chroma_store")
+API_KEY = os.getenv("API_KEY")
 
 EMBEDDING_MODEL = "BAAI/bge-m3"
 RERANKER_MODEL = "BAAI/bge-reranker-v2-m3"
