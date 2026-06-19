@@ -1,0 +1,758 @@
+[
+  {
+    "question": "Quais são os nomes dos dragões da Daenerys?",
+    "answer": "Os nomes dos dragões da Daenerys são Vhagar, Meraxes e Balerion.",
+    "ground_truth": "Drogon, Rhaegal e Viserion",
+    "context_precision": 0.5824999809265137,
+    "answer_relevancy": 0.8151999711990356,
+    "context_recall": 0.25,
+    "faithfulness": 0.5,
+    "avg_distance": 0.4175,
+    "sources": [
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Daenerys V",
+        "distance": 0.4125,
+        "text_preview": "– Vhagar – disse-lhe Daenerys. – Meraxes. E Balerion. Pinte os nomes nos cascos em letras douradas com um metro de altur"
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Quentyn Martell IV",
+        "distance": 0.4041,
+        "text_preview": "– Dorne se lembra de Aegon e suas irmãs. Dragões não são esquecidos tão facilmente. Eles se lembrarão de Daenerys também"
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Barristan Selmy II",
+        "distance": 0.4086,
+        "text_preview": "– Sua Magnificência, a Rainha Daenerys, é Mãe de Dragões. Apenas ela pode..."
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Samwell IV",
+        "distance": 0.4293,
+        "text_preview": "O erro veio da tradução. Os dragões não são machos nem fêmeas. Eles são agora um e agora o outro, tão mutáveis como as c"
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Daenerys I",
+        "distance": 0.433,
+        "text_preview": "– Todos de joelhos para Daenerys Nascida da Tormenta, a Não Queimada, Rainha de Meereen, Rainha dos Ândalos, dos Roinare"
+      }
+    ]
+  },
+  {
+    "question": "Quem é o pai de Jon Snow?",
+    "answer": "Não consigo confirmar isso a partir do contexto fornecido, mas, é sabido nesse mundo que Jon Snow, bastardos da Dinastia Stark, geralmente são ilegitimos.",
+    "ground_truth": "Ned Stark",
+    "context_precision": 0.6171000003814697,
+    "answer_relevancy": 0.6107000112533569,
+    "context_recall": 0.2857,
+    "faithfulness": 0.4,
+    "avg_distance": 0.3829,
+    "sources": [
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Jon VIII",
+        "distance": 0.2896,
+        "text_preview": "– Você é Jon Snow. Tem a cara do seu pai."
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Bran I",
+        "distance": 0.392,
+        "text_preview": "Jon Snow deitou sobre o protegido de seu pai um olhar longo e gelado."
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Bran IV",
+        "distance": 0.4032,
+        "text_preview": "— É o irmão de Jon Snow. Aquele que caiu…"
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Jon VII",
+        "distance": 0.3935,
+        "text_preview": "– Chama-se Jon Snow. É do sangue de Eddard Stark, de Winterfell."
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Bran I",
+        "distance": 0.4362,
+        "text_preview": "O irmão bastardo de Bran, Jon Snow, aproximou-se."
+      }
+    ]
+  },
+  {
+    "question": "Qual é o nome da espada de aço valiriano de Ned Stark?",
+    "answer": "O nome da espada de aço valiriano de Ned Stark é Gelo.",
+    "ground_truth": "Gelo",
+    "context_precision": 0.5625,
+    "answer_relevancy": 0.828499972820282,
+    "context_recall": 0.0,
+    "faithfulness": 1.0,
+    "avg_distance": 0.4375,
+    "sources": [
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Jon VII",
+        "distance": 0.4392,
+        "text_preview": "– Minha espada é de aço valiriano. Foi o Velho Urso quem me deu."
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Catelyn VII",
+        "distance": 0.413,
+        "text_preview": "Gelo era a espada de Ned. Aço valiriano, marcado com as ondulações de um milhar de dobras, tão afiado que eu tinha medo "
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Bran I",
+        "distance": 0.433,
+        "text_preview": "Lorde Eddard Stark desmontou, e seu protegido, Theon Greyjoy, apresentou-lhe a espada. Chamavam Gelo àquela espada. Era "
+      },
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "AS TERRAS OCIDENTAIS",
+        "distance": 0.4445,
+        "text_preview": "Rugido Brilhante, a espada de aço valiriano dos Lannister."
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Jon IX",
+        "distance": 0.458,
+        "text_preview": "— Aí está o vira-manto, senhor. O bastardo de Ned Stark, de Winterfell."
+      }
+    ]
+  },
+  {
+    "question": "Quem matou o Rei Louco Aerys Targaryen?",
+    "answer": "Não sei quem matou o Rei Louco Aerys Targaryen, pois essa informação não é fornecida no contexto. Apenas se menciona que o Rei Louco foi assassinado, mas não há detalhes sobre quem cometeu o crime.",
+    "ground_truth": "Jaime Lannister",
+    "context_precision": 0.5730999708175659,
+    "answer_relevancy": 0.7383000254631042,
+    "context_recall": 0.0,
+    "faithfulness": 0.0,
+    "avg_distance": 0.4269,
+    "sources": [
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "O ANO DA FALSA PRIMAVERA",
+        "distance": 0.3246,
+        "text_preview": "O Rei Louco, Aerys II."
+      },
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "ÍNDICE REMISSIVO",
+        "distance": 0.3874,
+        "text_preview": "Aerys II Targaryen (o Rei Louco) 113-21 , 124-29 , 142 , 160 , 170 , 203 , 204 , 218 , 230 , 239 , 247"
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Jon I",
+        "distance": 0.4721,
+        "text_preview": "– O Rei Louco? – Jon estava confuso. Aerys tinha sido rei antes de Robert, e isso não há muito tempo atrás."
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Sansa III",
+        "distance": 0.4839,
+        "text_preview": "— O Rei Louco assassinou-o."
+      },
+      {
+        "book": "Fogo e Sangue",
+        "chapter": "A sucessão Targaryen: Datada dos anos após a Conquista de Aegon",
+        "distance": 0.4665,
+        "text_preview": "o Rei Louco; único filho de Jaehaerys II"
+      }
+    ]
+  },
+  {
+    "question": "Qual casa tem como lema 'Inverno está chegando'?",
+    "answer": "Não sei. O contexto não fornece informações suficientes para determinar qual casa tem como lema \"Inverno está chegando\". A frase é repetida por personagens (Arya e Bastante), mas não está claro se é o lema de uma casa em particular.",
+    "ground_truth": "Casa Stark",
+    "context_precision": 0.5496000051498413,
+    "answer_relevancy": 0.7488999962806702,
+    "context_recall": 0.2,
+    "faithfulness": 0.5,
+    "avg_distance": 0.4504,
+    "sources": [
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Bran III",
+        "distance": 0.415,
+        "text_preview": "Porque o inverno está chegando."
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Theon VI",
+        "distance": 0.4188,
+        "text_preview": "– O inverno está chegando..."
+      },
+      {
+        "book": "Fogo e Sangue",
+        "chapter": "Jaehaerys e Alysanne: Triunfos e tragédias",
+        "distance": 0.4525,
+        "text_preview": "Mas o inverno estava chegando."
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Arya II",
+        "distance": 0.4845,
+        "text_preview": "– O inverno está chegando – sussurrou Arya."
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Bran I",
+        "distance": 0.481,
+        "text_preview": "— O inverno está chegando . — Bastava dizê-lo para que Bran sentisse frio."
+      }
+    ]
+  },
+  {
+    "question": "Como Tyrion Lannister ficou com a cicatriz no rosto?",
+    "answer": "Não está claro no contexto fornecido como Tyrion Lannister ficou com a cicatriz no rosto.\n\nNo entanto, parece que a cicatriz no nariz de Tyrion foi causada por uma situação anterior àquele momento, pois ele está esfregando os restos inflamados do nariz e afirma que a cicatriz às vezes coçava abominavelmente. No entanto, não há detalhes específicos sobre como a cicatriz foi causada.",
+    "ground_truth": "Na Batalha do Blackwater, quando o Sor Mandon Moore tentou matá-lo e ele foi cortado no rosto",
+    "context_precision": 0.6527000069618225,
+    "answer_relevancy": 0.8112000226974487,
+    "context_recall": 0.25,
+    "faithfulness": 1.0,
+    "avg_distance": 0.3473,
+    "sources": [
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Sansa III",
+        "distance": 0.3027,
+        "text_preview": "Tyrion Lannister estudou seu rosto:"
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Tyrion IV",
+        "distance": 0.3382,
+        "text_preview": "Tyrion esfregou a cicatriz de seu nariz e disse:"
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Tyrion V",
+        "distance": 0.3913,
+        "text_preview": "Os guardas o puxaram com brusquidão. Tyrion Lannister ficou pendurado entre eles, lançando fracos pontapés, com o rosto "
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Tyrion III",
+        "distance": 0.3422,
+        "text_preview": "Tyrion esfregou os restos inflamados do nariz. A cicatriz às vezes coçava abominavelmente."
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Jon I",
+        "distance": 0.3621,
+        "text_preview": "Lannister estudou-lhe o rosto."
+      }
+    ]
+  },
+  {
+    "question": "O que é a Muralha e quem a construiu?",
+    "answer": "Com base no contexto fornecido, não é especificado explicitamente quem construiu a Muralha. No entanto, podemos inferir que a Muralha é uma estrutura fortificada destinada a proteger as terras ao sul (ou à direita do contexto). \n\nO contexto também menciona \"feitiços antigos e fortes\" que estão urdidos na Muralha, sugerindo que a Muralha não é apenas uma estrutura física, mas também tem propriedades mágicas.",
+    "ground_truth": "A Muralha é uma enorme barreira de gelo no norte de Westeros, construída pelos construtores da Patrulha da Noite e pelos Filhos da Floresta, com a ajuda de gigantes e magia, há mais de 8.000 anos",
+    "context_precision": 0.5573999881744385,
+    "answer_relevancy": 0.7556999921798706,
+    "context_recall": 0.0,
+    "faithfulness": 0.3333,
+    "avg_distance": 0.4426,
+    "sources": [
+      {
+        "book": "O Cavaleiro dos Sete Reinos",
+        "chapter": "A Espada Juramentada",
+        "distance": 0.4163,
+        "text_preview": "– A Muralha é para o norte."
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Jon II",
+        "distance": 0.4689,
+        "text_preview": "– Somente para defender a Muralha, não em sua rebelião. É o que diz aqui."
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Jon XIII",
+        "distance": 0.465,
+        "text_preview": "– Preciso fazer o que acho melhor. Com todo o respeito, Vossa Graça, a Muralha é minha, assim como esta decisão."
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Bran IV",
+        "distance": 0.4781,
+        "text_preview": "— A Muralha. Disse-nos que a Muralha é mais do que apenas gelo e pedra. Tem feitiços nela urdidos… feitiços antigos, e f"
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Cersei IV",
+        "distance": 0.3847,
+        "text_preview": "— A Muralha? – disse ele, consternado."
+      }
+    ]
+  },
+  {
+    "question": "Quem é o três olhos corvo?",
+    "answer": " Não sei quem é o corvo de três olhos, pois o contexto não fornece informações suficientes para identificá-lo.",
+    "ground_truth": "Brynden Rivers, também conhecido como Corvo de Sangue, um ex-comandante da Patrulha da Noite e Targaryen bastardo",
+    "context_precision": 0.6575999855995178,
+    "answer_relevancy": 0.8083000183105469,
+    "context_recall": 0.5,
+    "faithfulness": 1.0,
+    "avg_distance": 0.3424,
+    "sources": [
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Bran I",
+        "distance": 0.353,
+        "text_preview": "– Quem mandou você? Quem é o corvo de três olhos?"
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Bran IV",
+        "distance": 0.3039,
+        "text_preview": "– O corvo tinha três olhos?"
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Bran II",
+        "distance": 0.347,
+        "text_preview": "– O corvo de três olhos? – perguntou Meera."
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Bran V",
+        "distance": 0.308,
+        "text_preview": "– Alguma vez viu um corvo com três olhos?"
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Bran IV",
+        "distance": 0.4001,
+        "text_preview": "— É o corvo de três olhos? — Ele não pode ser o corvo de três olhos ."
+      }
+    ]
+  },
+  {
+    "question": "O que aconteceu em Casamento Vermelho?",
+    "answer": "Em Casamento Vermelho, o Rei foi assassinado e o filho de Lorde Wyman também foi morto. Além disso, o Jovem Lobo se transformou em um animal e destroçou a garganta do primo de Davos, Guizo, e também tentou assassinar o pai de Davos.",
+    "ground_truth": "Robb Stark, sua mãe Catelyn e muitos de seus vassalos foram assassinados durante um casamento em Correrrio, pelos Frey e Boltons, violando as leis de hospitalidade",
+    "context_precision": 0.5546000003814697,
+    "answer_relevancy": 0.7404000163078308,
+    "context_recall": 0.4286,
+    "faithfulness": 1.0,
+    "avg_distance": 0.4454,
+    "sources": [
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "O prêmio do Rei I",
+        "distance": 0.3356,
+        "text_preview": "– O Casamento Vermelho."
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Cersei IV",
+        "distance": 0.4474,
+        "text_preview": "— Está referindo ao Casamento Vermelho? — Perguntou Aurane Waters."
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Jaime V",
+        "distance": 0.4516,
+        "text_preview": "— Se deitou com ela depois do Casamento Vermelho?"
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Davos IV",
+        "distance": 0.5221,
+        "text_preview": "– O rei de vocês está morto – Davos recordou –, assassinado no Casamento Vermelho, ao lado do filho de Lorde Wyman."
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Davos III",
+        "distance": 0.4701,
+        "text_preview": "– O Casamento Vermelho foi obra do Jovem Lobo. Ele se transformou em um animal diante de nossos olhos e destroçou a garg"
+      }
+    ]
+  },
+  {
+    "question": "Quem é Azor Ahai?",
+    "answer": "Azor Ahai é um profeta das Cronicas de Gelo e Fogo, considerado o \"guerreiro do fogo\". Ele será o responsável por acordar os dragões da pedra em momentos de trevas e crises. Segundo a profecia, ele renascerá \"da fumaça e do sal\" no local chamado Pedra do Dragão, trazendo a luz e o triunfo sobre a escuridão.\n\nDe acordo com as palavras de Melisandre, Stannis Baratheon e uma outra mulher (que não foi explicitado qual mulher, mas Melisandre também menciona outra pessoa sendo Azor Ahai), são candidatos a serem Azor Ahai.",
+    "ground_truth": "Um herói lendário da antiga Valíria que forjou a espada Luminífera (Lightbringer) para lutar contra a escuridão",
+    "context_precision": 0.5123000144958496,
+    "answer_relevancy": 0.7182000279426575,
+    "context_recall": 0.5,
+    "faithfulness": 0.875,
+    "avg_distance": 0.4877,
+    "sources": [
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "ÍNDICE REMISSIVO",
+        "distance": 0.428,
+        "text_preview": "Azor Ahai 11 , 301"
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Melisandre I",
+        "distance": 0.5044,
+        "text_preview": "Até agora, ela não tinha tido uma visão sequer de seu rei. Rezo por um vislumbre de Azor Ahai, e R’hllor me mostra apena"
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Samwell V",
+        "distance": 0.4962,
+        "text_preview": "— Ele está na sua frente — declarou Melisandre —, embora não tenha olhos para ver. Stannis Baratheon é Azor Ahai regress"
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Davos III",
+        "distance": 0.5135,
+        "text_preview": "Quando a estrela vermelha sangra e as trevas reúnem forças, Azor Ahai renascerá por entre fumaça e sal, para acordar dra"
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Tyrion VI",
+        "distance": 0.4967,
+        "text_preview": "– Benerro enviou a palavra de Volantis. A vinda dela é o cumprimento de uma antiga profecia. Da fumaça e do sal ela nasc"
+      }
+    ]
+  },
+  {
+    "question": "Onde Daenerys chocou seus ovos de dragão?",
+    "answer": "Não podemos determinar com certeza onde Daenerys chocou seus ovos de dragão com base no texto fornecido. A menção é feita no contexto de falar sobre Valdocaso, mas não há informações sobre onde Daenerys chocou seus ovos de dragão.",
+    "ground_truth": "Na pira funerária de Khal Drogo, em meio ao deserto vermelho além do Mar Dothraki",
+    "context_precision": 0.5591999888420105,
+    "answer_relevancy": 0.689300000667572,
+    "context_recall": 0.5,
+    "faithfulness": 0.25,
+    "avg_distance": 0.4408,
+    "sources": [
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Daenerys III",
+        "distance": 0.4287,
+        "text_preview": "– Sei que me deu os ovos de dragão."
+      },
+      {
+        "book": "Fogo e Sangue",
+        "chapter": "Nascimento, morte e traição sob o governo do rei Jaehaerys I",
+        "distance": 0.4514,
+        "text_preview": "— Pode ser que não sejam chocados — disse Benifer. — Não longe de Pedra do Dragão. O calor… É sabido que alguns ovos de "
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Victarion Greyjoy II",
+        "distance": 0.4148,
+        "text_preview": "— Mostra-me esse ovo de dragão."
+      },
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "AERYS II",
+        "distance": 0.4587,
+        "text_preview": "No rescaldo de Valdocaso, o rei também começou a mostrar sinais de uma obsessão crescente com fogo de dragão, similar à "
+      },
+      {
+        "book": "Fogo e Sangue",
+        "chapter": "O longo reinado Jaehaerys e Alysanne: Política, progênie e provação",
+        "distance": 0.4506,
+        "text_preview": "— Ela era do sangue do dragão. Será queimada, e suas cinzas serão sepultadas em Pedra do Dragão ao lado da irmã Daenerys"
+      }
+    ]
+  },
+  {
+    "question": "Quem é o rei da noite?",
+    "answer": "Eu não sei. O texto não fornece suficiente informações para identificar quem é o rei da noite.",
+    "ground_truth": "O Rei da Noite é uma figura lendaria do folclore de Westeros",
+    "context_precision": 0.5181000232696533,
+    "answer_relevancy": 0.8403000235557556,
+    "context_recall": 0.6667,
+    "faithfulness": 0.75,
+    "avg_distance": 0.4819,
+    "sources": [
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Eddard VII",
+        "distance": 0.5005,
+        "text_preview": "– Beba. É o seu rei quem ordena."
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Cersei I",
+        "distance": 0.4965,
+        "text_preview": "— Quem está com o rei?"
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Jon VII",
+        "distance": 0.4833,
+        "text_preview": "– Não – Qhorin dissera –, ele é um homem da Patrulha da Noite."
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Jon XI",
+        "distance": 0.4502,
+        "text_preview": "— Eu sou um homem da Patrulha da Noite."
+      },
+      {
+        "book": "O Cavaleiro dos Sete Reinos",
+        "chapter": "O Cavaleiro Misterioso",
+        "distance": 0.4791,
+        "text_preview": "– O rei."
+      }
+    ]
+  },
+  {
+    "question": "Por que Sor Jorah Mormont foi exilado de Westeros?",
+    "answer": "Com base no contexto fornecido, não há informações específicas sobre a razão do exílio de Sor Jorah Mormont de Westeros. No entanto, podemos fazer uma suposição baseada em sua personalidade e ações. Em outras partes da série, é revelado que Sor Jorah Mormont foi exilado por traficar escravos e por ter caçado um dragão selvagem de forma ilegal, resultando na perda de seu domínio (Bear Island).",
+    "ground_truth": "Por vender caçadores ilegais para escravistas, um crime punível com a morte",
+    "context_precision": 0.5612000226974487,
+    "answer_relevancy": 0.8504999876022339,
+    "context_recall": 0.0,
+    "faithfulness": 0.3333,
+    "avg_distance": 0.4388,
+    "sources": [
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Eddard II",
+        "distance": 0.4432,
+        "text_preview": "– Lembra-se de Sor Jorah Mormont?"
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Daenerys II",
+        "distance": 0.4512,
+        "text_preview": "Foi Sor Jorah Mormont quem respondeu."
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Daenerys II",
+        "distance": 0.4204,
+        "text_preview": "Sor Jorah Mormont desculpou-se pelo presente."
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Daenerys IV",
+        "distance": 0.4343,
+        "text_preview": "Sor Jorah Mormont deixou-se ficar."
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Daenerys X",
+        "distance": 0.4451,
+        "text_preview": "Sor Jorah Mormont puxou-a de lado quando o sol se aproximava do zênite."
+      }
+    ]
+  },
+  {
+    "question": "O que é a cidadela?",
+    "answer": "Não sei responder com precisão sobre o que é a Cidadela em detalhes, mas posso inferir que é um local importante e antigo que serve para treinamento dos meistres, provavelmente de combate ou outras habilidades. É mencionado que a Corvaria é o edifício mais velho da Cidadela, sugerindo que ela é uma estrutura grande e complexa. Além disso, fica localizada em Vinhomel, aparentemente a um local com relevância histórica, citado como Era dos Heróis, o que pode sugerir antigo.",
+    "ground_truth": "A Cidadela é a ordem dos meistres, localizada em Vilavela, onde os meistres são treinados",
+    "context_precision": 0.5210000276565552,
+    "answer_relevancy": 0.7924000024795532,
+    "context_recall": 0.5,
+    "faithfulness": 0.375,
+    "avg_distance": 0.479,
+    "sources": [
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "ÍNDICE REMISSIVO",
+        "distance": 0.4371,
+        "text_preview": "Ver também Cidadela"
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Samwell I",
+        "distance": 0.4802,
+        "text_preview": "— Se pedir mais meistres à Cidadela…"
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Samwell V",
+        "distance": 0.4839,
+        "text_preview": "— A Corvaria é o edifício mais velho da Cidadela — explicou Alleras enquanto cruzavam as lentas águas de Vinhomel. — Diz"
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Cersei VIII",
+        "distance": 0.5241,
+        "text_preview": "— Bom. Você pode ir. — Quando ele se virou em direção a porta ela o chamou de volta. — Mais uma coisa. O que a Cidadela "
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Samwell I",
+        "distance": 0.4695,
+        "text_preview": "— Senhor, a Cidadela… lá nos obrigam a cortar cadáveres. –"
+      }
+    ]
+  },
+  {
+    "question": "Como Jaime Lannister perdeu a mão?",
+    "answer": "Não sei exatamente como Jaime Lannister perdeu a mão. O contexto apenas sugere que algo relacionado a Harrenhal poderia ter contribuído para a perda da mão, mas isso não é especificado.",
+    "ground_truth": "Foi cortada por Vargo Hoat, durante sua captura no rio Tridente",
+    "context_precision": 0.6241999864578247,
+    "answer_relevancy": 0.9118000268936157,
+    "context_recall": 0.0,
+    "faithfulness": 0.4,
+    "avg_distance": 0.3758,
+    "sources": [
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Jaime IV",
+        "distance": 0.364,
+        "text_preview": "— Perdeu uma mão."
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Cersei II",
+        "distance": 0.3272,
+        "text_preview": "Se Jaime não tivesse perdido a mão..."
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Sansa II",
+        "distance": 0.3694,
+        "text_preview": "Jaime Lannister ergueu-se e sacudiu sua roupa."
+      },
+      {
+        "book": "O Festim dos Corvos",
+        "chapter": "Jaime IV",
+        "distance": 0.4003,
+        "text_preview": "Está rindo de mim , compreendeu Jaime Lannister."
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Jaime III",
+        "distance": 0.4178,
+        "text_preview": "Harrenhal? Será que meu pai perdeu o juízo? Jaime ergueu as mãos."
+      }
+    ]
+  },
+  {
+    "question": "Quem é o chefe da guarda real de Robert Baratheon?",
+    "answer": "Sor Barristan Selmy, conhecido como Barristan, o Ousado, é o Senhor Comandante da Guarda Real de Robert Baratheon.",
+    "ground_truth": "Sor Barristan Selmy",
+    "context_precision": 0.5329999923706055,
+    "answer_relevancy": 0.7978000044822693,
+    "context_recall": 0.5,
+    "faithfulness": 1.0,
+    "avg_distance": 0.467,
+    "sources": [
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "AS TERRAS DA TEMPESTADE",
+        "distance": 0.4606,
+        "text_preview": "Sor Duncan, o Alto, da Guarda Real, enfrenta Lorde Lyonel Baratheon em combate individual."
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Tyrion I",
+        "distance": 0.4756,
+        "text_preview": "– Sor Barristan era Senhor Comandante da Guarda Real de Robert Baratheon – Tyrion lembrou contundentemente à irmã. – Ele"
+      },
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "ÍNDICE REMISSIVO",
+        "distance": 0.425,
+        "text_preview": "Baratheon, Robert. Ver Robert I Baratheon"
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Jaime VIII",
+        "distance": 0.5025,
+        "text_preview": "Ferido por flecha, lança e espada na Batalha do Tridente enquanto lutava ao lado de seus Irmãos Juramentados e Rhaegar, "
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Daenerys V",
+        "distance": 0.4712,
+        "text_preview": "— Vi-o talvez uma dúzia de vezes… de longe, geralmente, quando estava na companhia dos irmãos ou participando de algum t"
+      }
+    ]
+  },
+  {
+    "question": "O que é a profecia do príncipe que foi prometido?",
+    "answer": "A profecia do príncipe prometido é que ele nascerá da linhagem de seu avô, será um guerreiro cuja vinda foi profetizada há cinco mil anos, será o Outro e, caso cair, o mundo irá cair junto. Esse príncipe foi previsto para emergir durante a Guerra pela Alvorada e será aquele que conduzirá a vitória.",
+    "ground_truth": "Uma profecia antiga que diz que um herói renascerá para salvar o mundo da escuridão, brandindo a espada Luminífera",
+    "context_precision": 0.5685999989509583,
+    "answer_relevancy": 0.7340999841690063,
+    "context_recall": 0.6667,
+    "faithfulness": 0.0,
+    "avg_distance": 0.4314,
+    "sources": [
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Daenerys IV",
+        "distance": 0.4111,
+        "text_preview": "– Seu avô ordenou. Uma bruxa do bosque dissera para ele que o príncipe prometido nasceria da linhagem deles."
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Davos VI",
+        "distance": 0.4592,
+        "text_preview": "— O senhor é aquele que deverá se erguer perante o Outro. Aquele cuja vinda foi profetizada há cinco mil anos. O cometa "
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Samwell V",
+        "distance": 0.385,
+        "text_preview": "— A guerra de que fala é a guerra pela alvorada, senhora. Mas onde está o príncipe que foi profetizado?"
+      },
+      {
+        "book": "A Tormenta de Espadas",
+        "chapter": "Jaime III",
+        "distance": 0.4658,
+        "text_preview": "— Harrenhal. Foi-lhe prometido."
+      },
+      {
+        "book": "A Fúria dos Reis",
+        "chapter": "Bran I",
+        "distance": 0.4361,
+        "text_preview": "– O que é isso, meu príncipe?"
+      }
+    ]
+  },
+  {
+    "question": "Qual casa comanda Pedra do Dragão no início da série?",
+    "answer": "A casa que comanda Pedra do Dragão no início da série não é mencionada explicitamente. No entanto, o contexto sugere que é a Casa Targaryen, pois fala da história da Casa Targaryen e da sua presença em Pedra do Dragão por mais de duzentos anos.",
+    "ground_truth": "Casa Baratheon, sob Stannis Baratheon",
+    "context_precision": 0.49570000171661377,
+    "answer_relevancy": 0.6485999822616577,
+    "context_recall": 0.0,
+    "faithfulness": 1.0,
+    "avg_distance": 0.5043,
+    "sources": [
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "A PERDIÇÃO DE VALÍRIA",
+        "distance": 0.4697,
+        "text_preview": "Pedra do Dragão"
+      },
+      {
+        "book": "A Guerra dos Tronos",
+        "chapter": "Eddard XIII",
+        "distance": 0.5184,
+        "text_preview": "– Em Pedra do Dragão, senhor? – a fortaleza insular da Casa Targaryen tinha uma reputação sinistra."
+      },
+      {
+        "book": "A Princesa e a Rainha",
+        "chapter": "A Princesa e a Rainha,",
+        "distance": 0.4916,
+        "text_preview": "A Casa Targaryen governara Pedra do Dragão por mais de duzentos anos, desde que Lorde Aenar Targaryen chegara ali com se"
+      },
+      {
+        "book": "A Dança dos Dragões",
+        "chapter": "Daenerys X",
+        "distance": 0.5495,
+        "text_preview": "E não importava o quão longe o dragão voasse cada dia, chegando o anoitecer algum instinto levava-o para casa em Pedra d"
+      },
+      {
+        "book": "O Mundo de Gelo e Fogo",
+        "chapter": "A Conquista",
+        "distance": 0.4925,
+        "text_preview": "Pedra do Dragão fora o posto avançado mais ocidental do poder valiriano por dois séculos. Sua localização, no extremo da"
+      }
+    ]
+  }
+]

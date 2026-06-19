@@ -1,0 +1,144 @@
+{
+  "queries": 18,
+  "cross_encoder": {
+    "total_time_seconds": 226.281,
+    "avg_time_seconds": 12.571
+  },
+  "lightweight": {
+    "total_time_seconds": 17.253,
+    "avg_time_seconds": 0.958
+  },
+  "speedup_x": 13.1,
+  "avg_mrr": 0.4576833333333333,
+  "avg_ndcg@10": 0.8893166666666666,
+  "avg_overlap@5": 0.6000000000000001,
+  "avg_overlap@10": 1.0,
+  "per_query": [
+    {
+      "mrr": 0.5,
+      "ndcg@10": 0.848,
+      "overlap@10": 1.0,
+      "overlap@5": 0.4,
+      "question": "Quais são os nomes dos dragões da Daenerys?"
+    },
+    {
+      "mrr": 0.25,
+      "ndcg@10": 0.987,
+      "overlap@10": 1.0,
+      "overlap@5": 0.8,
+      "question": "Quem é o pai de Jon Snow?"
+    },
+    {
+      "mrr": 1.0,
+      "ndcg@10": 0.9731,
+      "overlap@10": 1.0,
+      "overlap@5": 0.6,
+      "question": "Qual é o nome da espada de aço valiriano de Ned Stark?"
+    },
+    {
+      "mrr": 0.1429,
+      "ndcg@10": 0.8109,
+      "overlap@10": 1.0,
+      "overlap@5": 0.4,
+      "question": "Quem matou o Rei Louco Aerys Targaryen?"
+    },
+    {
+      "mrr": 1.0,
+      "ndcg@10": 0.9788,
+      "overlap@10": 1.0,
+      "overlap@5": 0.8,
+      "question": "Qual casa tem como lema 'Inverno está chegando'?"
+    },
+    {
+      "mrr": 0.5,
+      "ndcg@10": 0.845,
+      "overlap@10": 1.0,
+      "overlap@5": 0.4,
+      "question": "Como Tyrion Lannister ficou com a cicatriz no rosto?"
+    },
+    {
+      "mrr": 0.1429,
+      "ndcg@10": 0.8005,
+      "overlap@10": 1.0,
+      "overlap@5": 0.6,
+      "question": "O que é a Muralha e quem a construiu?"
+    },
+    {
+      "mrr": 1.0,
+      "ndcg@10": 0.9688,
+      "overlap@10": 1.0,
+      "overlap@5": 0.8,
+      "question": "Quem é o três olhos corvo?"
+    },
+    {
+      "mrr": 1.0,
+      "ndcg@10": 0.9356,
+      "overlap@10": 1.0,
+      "overlap@5": 0.6,
+      "question": "O que aconteceu em Casamento Vermelho?"
+    },
+    {
+      "mrr": 0.125,
+      "ndcg@10": 0.8344,
+      "overlap@10": 1.0,
+      "overlap@5": 0.6,
+      "question": "Quem é Azor Ahai?"
+    },
+    {
+      "mrr": 0.5,
+      "ndcg@10": 0.8483,
+      "overlap@10": 1.0,
+      "overlap@5": 0.6,
+      "question": "Onde Daenerys chocou seus ovos de dragão?"
+    },
+    {
+      "mrr": 0.5,
+      "ndcg@10": 0.8541,
+      "overlap@10": 1.0,
+      "overlap@5": 0.6,
+      "question": "Quem é o rei da noite?"
+    },
+    {
+      "mrr": 0.1429,
+      "ndcg@10": 0.7983,
+      "overlap@10": 1.0,
+      "overlap@5": 0.4,
+      "question": "Por que Sor Jorah Mormont foi exilado de Westeros?"
+    },
+    {
+      "mrr": 0.1667,
+      "ndcg@10": 0.8205,
+      "overlap@10": 1.0,
+      "overlap@5": 0.4,
+      "question": "O que é a cidadela?"
+    },
+    {
+      "mrr": 0.125,
+      "ndcg@10": 0.941,
+      "overlap@10": 1.0,
+      "overlap@5": 0.8,
+      "question": "Como Jaime Lannister perdeu a mão?"
+    },
+    {
+      "mrr": 0.5,
+      "ndcg@10": 0.8935,
+      "overlap@10": 1.0,
+      "overlap@5": 0.8,
+      "question": "Quem é o chefe da guarda real de Robert Baratheon?"
+    },
+    {
+      "mrr": 0.5,
+      "ndcg@10": 0.9628,
+      "overlap@10": 1.0,
+      "overlap@5": 0.8,
+      "question": "O que é a profecia do príncipe que foi prometido?"
+    },
+    {
+      "mrr": 0.1429,
+      "ndcg@10": 0.9071,
+      "overlap@10": 1.0,
+      "overlap@5": 0.4,
+      "question": "Qual casa comanda Pedra do Dragão no início da série?"
+    }
+  ]
+}

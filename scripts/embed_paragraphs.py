@@ -17,8 +17,8 @@ from app.config import (
 
 nltk.download("punkt_tab", quiet=True)
 
-SENTENCE_WINDOW = 5
-SENTENCE_STRIDE = 3
+SENTENCE_WINDOW = 8
+SENTENCE_STRIDE = 4
 
 # ── clientes ──────────────────────────────────────────────
 print("Carregando modelo de embeddings...")
@@ -113,10 +113,12 @@ def main():
 
     if args.rebuild:
         print("Limpando coleção existente...")
-        n_total = collection.count()
-        if n_total:
-            collection.delete(collection.get()["ids"])
-            print(f"Removidos {n_total} chunks antigos.\n")
+        chroma.delete_collection(COLLECTION_NAME)
+        collection = chroma.create_collection(
+            COLLECTION_NAME,
+            metadata={"hnsw:space": "cosine"}
+        )
+        print("Coleção recriada.\n")
     print("Carregando parágrafos do SQLite...")
     paragraphs = load_paragraphs()
     print(f"{len(paragraphs)} parágrafos carregados.")

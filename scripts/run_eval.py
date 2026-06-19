@@ -8,8 +8,9 @@ sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 QUESTIONS_PATH = os.path.join(os.path.dirname(__file__), "..", "eval", "questions.json")
 
 from openai import OpenAI
-from app.services.retrieval import search as retrieve, model
-from app.config import GROQ_API_KEY, GROQ_MODEL
+from app.services.retrieval import search as retrieve
+from app.config import GROQ_API_KEY, GROQ_MODEL, EMBEDDING_MODEL
+import app.services.retrieval as ret_mod
 
 # Groq models tem TPD separado por modelo. Usando 8B que tem limite maior
 EVAL_MODEL = "llama-3.1-8b-instant"
@@ -19,16 +20,26 @@ RATE_LIMIT_DELAY = 2.0
 MAX_RETRIES = 5
 
 
+def _get_model():
+    m = ret_mod._sentence_model
+    if m is None:
+        ret_mod._init_models()
+        m = ret_mod._sentence_model
+    return m
+
+
 def _encode_query(text):
+    m = _get_model()
     if isinstance(text, str):
-        return model.encode(f"Represent this sentence for searching relevant passages: {text}")
-    return model.encode([f"Represent this sentence for searching relevant passages: {t}" for t in text])
+        return m.encode(f"Represent this sentence for searching relevant passages: {text}")
+    return m.encode([f"Represent this sentence for searching relevant passages: {t}" for t in text])
 
 
 def _encode_doc(text):
+    m = _get_model()
     if isinstance(text, str):
-        return model.encode(text)
-    return model.encode(text)
+        return m.encode(text)
+    return m.encode(text)
 
 
 def _llm_request(prompt: str) -> str:
@@ -171,7 +182,7 @@ def answer_relevancy(question: str, answer: str) -> float:
     return sum(scores) / len(scores) if scores else 0.0
 
 
-OUT_PATH = os.path.join(os.path.dirname(__file__), "..", "eval", "results.json")
+OUT_PATH = os.getenv("EVAL_OUT_PATH", os.path.join(os.path.dirname(__file__), "..", "eval", "results.json"))
 
 
 def load_done(out_path: str) -> dict:
