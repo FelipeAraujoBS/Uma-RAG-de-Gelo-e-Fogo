@@ -3,6 +3,7 @@ import os
 import re
 import time
 import sqlite3
+import threading
 from collections import defaultdict
 
 import numpy as np
@@ -25,16 +26,19 @@ def _escape_fts5(query: str) -> str:
 
 
 def _is_chroma_healthy() -> bool:
-    try:
-        global _chroma_client, _collection
-        if _chroma_client is None:
-            import chromadb
-            _chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
-            _collection = _chroma_client.get_or_create_collection(COLLECTION_NAME)
-        _collection.count()
-        return True
-    except Exception:
-        return False
+    global _chroma_collection
+    with _chroma_lock:
+        try:
+            if _chroma_collection is None:
+                import chromadb
+                _chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
+                _chroma_collection = _chroma_client.get_or_create_collection(COLLECTION_NAME)
+            _chroma_collection.count()
+            return True
+        except Exception as e:
+            print(f"[CHROMA] Health check falhou: {type(e).__name__}: {e}", flush=True)
+            _chroma_collection = None
+            return False
 
 
 def _fts5_search(question: str, n_results: int = 20) -> dict:
@@ -83,8 +87,9 @@ def _fts5_search(question: str, n_results: int = 20) -> dict:
 _bm25_cache = None
 _sentence_model = None
 _reranker = None
-_chroma_client = None
-_collection = None
+_chroma_collection = None
+_chroma_lock = threading.Lock()
+_init_lock = threading.Lock()
 
 _training_data = None
 
@@ -94,49 +99,55 @@ def _tokenize(text: str) -> list[str]:
 
 
 def _init_models():
-    global _sentence_model, _reranker, _chroma_client, _collection
+    global _sentence_model, _reranker
     if _sentence_model is None:
-        from sentence_transformers import SentenceTransformer
-        _sentence_model = SentenceTransformer(EMBEDDING_MODEL)
+        with _init_lock:
+            if _sentence_model is None:
+                from sentence_transformers import SentenceTransformer
+                _sentence_model = SentenceTransformer(EMBEDDING_MODEL)
     if _reranker is None and os.environ.get("RERANKER_MODE", "lightweight") != "lightweight":
-        from sentence_transformers import CrossEncoder
-        _reranker = CrossEncoder(RERANKER_MODEL)
-    if _chroma_client is None:
-        import chromadb
-        _chroma_client = chromadb.PersistentClient(path=CHROMA_PATH)
-        _collection = _chroma_client.get_or_create_collection(COLLECTION_NAME)
+        with _init_lock:
+            if _reranker is None:
+                from sentence_transformers import CrossEncoder
+                _reranker = CrossEncoder(RERANKER_MODEL)
 
 
 def _init_bm25():
     global _bm25_cache
-    total = _collection.count()
-    if total == 0:
-        raise RuntimeError(
-            f"Collection '{COLLECTION_NAME}' está vazia. "
-            "Execute 'python scripts/embed_paragraphs.py --rebuild' primeiro."
-        )
-    texts, ids, metadatas = [], [], []
-    offset = 0
-    limit = 10000
-    while offset < total:
-        batch = _collection.get(
-            include=["documents", "metadatas"],
-            limit=limit,
-            offset=offset,
-        )
-        if not batch["ids"]:
-            break
-        texts.extend(batch["documents"])
-        ids.extend(batch["ids"])
-        metadatas.extend(batch["metadatas"])
-        offset += limit
-    tokenized = [_tokenize(t) for t in texts]
-    from rank_bm25 import BM25Okapi
-    _bm25_cache = (BM25Okapi(tokenized), texts, ids, metadatas)
+    if _bm25_cache is not None:
+        return
+    with _init_lock:
+        if _bm25_cache is not None:
+            return
+        with _chroma_lock:
+            total = _chroma_collection.count()
+            if total == 0:
+                raise RuntimeError(
+                    f"Collection '{COLLECTION_NAME}' está vazia. "
+                    "Execute 'python scripts/embed_paragraphs.py --rebuild' primeiro."
+                )
+            texts, ids, metadatas = [], [], []
+            offset = 0
+            limit = 10000
+            while offset < total:
+                batch = _chroma_collection.get(
+                    include=["documents", "metadatas"],
+                    limit=limit,
+                    offset=offset,
+                )
+                if not batch["ids"]:
+                    break
+                texts.extend(batch["documents"])
+                ids.extend(batch["ids"])
+                metadatas.extend(batch["metadatas"])
+                offset += limit
+        tokenized = [_tokenize(t) for t in texts]
+        from rank_bm25 import BM25Okapi
+        _bm25_cache = (BM25Okapi(tokenized), texts, ids, metadatas)
 
 
 def search(question: str, n_results: int = 20) -> dict:
-    global _bm25_cache, _sentence_model, _reranker, _chroma_client, _collection, _training_data
+    global _bm25_cache, _sentence_model, _reranker, _chroma_collection, _training_data
     print(f"[TIMING] search() iniciado para: {question[:60]}", flush=True)
 
     t0 = time.time()
@@ -168,11 +179,12 @@ def search(question: str, n_results: int = 20) -> dict:
     print(f"[TIMING] Embedding da query = {time.time() - t3:.2f}s", flush=True)
 
     t4 = time.time()
-    sem = _collection.query(
-        query_embeddings=[query_emb],
-        n_results=n_results * 5,
-        include=["documents", "metadatas", "distances"],
-    )
+    with _chroma_lock:
+        sem = _chroma_collection.query(
+            query_embeddings=[query_emb],
+            n_results=n_results * 5,
+            include=["documents", "metadatas", "distances"],
+        )
     print(f"[TIMING] ChromaDB query (top {n_results * 5}) = {time.time() - t4:.2f}s", flush=True)
 
     sem_by_id = {}
