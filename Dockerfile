@@ -14,15 +14,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY app ./app
 COPY scripts ./scripts
 COPY database.db /app/database.db
+COPY chroma_store ./chroma_store
 
 ENV PYTHONPATH=/app
 ENV DB_PATH=/app/database.db
 
 # Pre-download embedding model to /app/.cache (persists in final image)
 RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('BAAI/bge-m3')"
-
-# Build chroma_store once at build time (avoids timeout rebuild on every restart)
-RUN python scripts/embed_paragraphs.py --rebuild
 
 FROM python:3.12-slim
 

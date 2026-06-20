@@ -13,4 +13,3 @@ venv
 .idea
 test_meta
 eval
-chroma_store/
