@@ -2,12 +2,26 @@ import json
 import os
 
 import numpy as np
-from app.config import RERANKER_WEIGHTS_PATH
+from app.config import (
+    RERANKER_WEIGHTS_PATH,
+    RERANK_WEIGHT_BM25,
+    RERANK_WEIGHT_DENSE,
+    RERANK_WEIGHT_RRF,
+)
 
 DEFAULT_WEIGHTS = {"bm25": 0.2, "dense": 0.6, "rrf": 0.2}
 
 
 def _load_weights(path: str | None = None) -> dict[str, float]:
+    env_weights = {}
+    if RERANK_WEIGHT_BM25 is not None:
+        env_weights["bm25"] = float(RERANK_WEIGHT_BM25)
+    if RERANK_WEIGHT_DENSE is not None:
+        env_weights["dense"] = float(RERANK_WEIGHT_DENSE)
+    if RERANK_WEIGHT_RRF is not None:
+        env_weights["rrf"] = float(RERANK_WEIGHT_RRF)
+    if len(env_weights) == 3:
+        return env_weights
     path = path or RERANKER_WEIGHTS_PATH
     if os.path.exists(path):
         with open(path) as f:

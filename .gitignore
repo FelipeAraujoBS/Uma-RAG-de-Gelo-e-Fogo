@@ -4,3 +4,8 @@ __pycache__/
 *.pyc
 *.backup
 chroma_store/chroma_store_backup/
+
+# Testes e benchmark
+eval/benchmark_cascade/
+scripts/benchmark_cascade.py
+scripts/compile_benchmark.py
