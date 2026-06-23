@@ -1,6 +1,6 @@
 import time
 from openai import AsyncOpenAI
-from app.config import GROQ_API_KEY, GROQ_MODEL
+from app.config import GROQ_API_KEY, GROQ_MODEL, TOP_N_CONTEXT
 
 client = AsyncOpenAI(
     api_key=GROQ_API_KEY,
@@ -87,9 +87,14 @@ MAX_CONTEXT_CHARS = 20000
 
 async def generate(question: str, context: str | None = None) -> str:
     has_context = bool(context and context.strip())
-    if has_context and len(context) > MAX_CONTEXT_CHARS:
-        context = context[:MAX_CONTEXT_CHARS] + "\n[Contexto truncado...]"
-    print(f"[TIMING] generate() iniciado | modelo={GROQ_MODEL} | context_tamanho={len(context or '')}", flush=True)
+    if has_context:
+        chunks = context.split("\n\n")
+        if len(chunks) > TOP_N_CONTEXT:
+            chunks = chunks[:TOP_N_CONTEXT]
+            context = "\n\n".join(chunks)
+        if len(context) > MAX_CONTEXT_CHARS:
+            context = context[:MAX_CONTEXT_CHARS] + "\n[Contexto truncado...]"
+    print(f"[TIMING] generate() iniciado | modelo={GROQ_MODEL} | top_n={TOP_N_CONTEXT} | context_tamanho={len(context or '')}", flush=True)
 
     user_content = (
         f"Contexto recuperado:\n{context}\n\n"

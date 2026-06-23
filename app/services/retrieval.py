@@ -233,9 +233,28 @@ def search(question: str, n_results: int = 20) -> dict:
             }
         enriched_chunks.append(chunk)
 
-    if os.environ.get("RERANKER_MODE", "lightweight") == "lightweight":
+    mode = os.environ.get("RERANKER_MODE", "lightweight")
+
+    if mode == "lightweight":
         reranked = lightweight_rerank(enriched_chunks)
         print(f"[TIMING] Lightweight rerank ({len(reranked)} chunks) = {time.time() - t6:.2f}s", flush=True)
+
+    elif mode == "cascade":
+        reranked = lightweight_rerank(enriched_chunks)
+        print(f"[TIMING] Cascade: lightweight rerank ({len(reranked)} chunks) = {time.time() - t6:.2f}s", flush=True)
+        reranked = reranked[:int(os.environ.get("CROSS_ENCODER_TOP_N", "12"))]
+        t6b = time.time()
+        pairs = [(question, c["document"]) for c in reranked]
+        ce_scores = _reranker.predict(pairs)
+        print(f"[TIMING] Cascade: cross-encoder rerank ({len(pairs)} pares) = {time.time() - t6b:.2f}s", flush=True)
+
+        reranked = [
+            c for _, c in sorted(
+                zip(ce_scores, reranked),
+                key=lambda x: x[0], reverse=True,
+            )
+        ]
+
     else:
         pairs = [(question, c["document"]) for c in enriched_chunks]
         ce_scores = _reranker.predict(pairs)
