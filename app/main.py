@@ -1,3 +1,5 @@
+import logging
+
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -8,6 +10,13 @@ from app.config import API_KEY
 import chromadb
 from app.config import CHROMA_PATH, GROQ_API_KEY
 from app.limiter import limiter
+from app.logflow_handler import LogflowHandler
+
+logging.basicConfig(level=logging.INFO)
+root_logger = logging.getLogger()
+logflow_handler = LogflowHandler()
+logflow_handler.setLevel(logging.INFO)
+root_logger.addHandler(logflow_handler)
 
 app = FastAPI(title="Uma RAG de Gelo e Fogo")
 

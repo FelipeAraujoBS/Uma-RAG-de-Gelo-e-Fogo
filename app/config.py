@@ -10,7 +10,7 @@ API_KEY = os.getenv("API_KEY")
 
 EMBEDDING_MODEL = "BAAI/bge-m3"
 RERANKER_MODEL = "BAAI/bge-reranker-v2-m3"
-GROQ_MODEL = "qwen/qwen3.6-27b"
+GROQ_MODEL = "llama-3.1-70b-versatile"
 
 RERANKER_MODE = os.getenv("RERANKER_MODE", "lightweight")
 RERANKER_WEIGHTS_PATH = os.getenv("RERANKER_WEIGHTS_PATH", "reranker_weights.json")
