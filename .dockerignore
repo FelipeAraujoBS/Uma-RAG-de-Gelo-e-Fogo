@@ -1,7 +1,6 @@
 venv
-.git
-.gitignore
-.gitattributes
+.git/objects
+.git/lfs
 .env
 __pycache__
 *.pyc

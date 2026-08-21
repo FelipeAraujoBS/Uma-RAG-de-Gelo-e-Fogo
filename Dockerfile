@@ -1,20 +1,21 @@
 FROM python:3.12-slim AS builder
 
-WORKDIR /app
-
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
+    git \
+    git-lfs \
     && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY . .
+
+ARG GIT_REMOTE_URL
+RUN git init && git lfs install && git remote add origin "$GIT_REMOTE_URL" && git lfs pull
 
 ENV HF_HOME=/app/.cache
 
-COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
-
-COPY app ./app
-COPY scripts ./scripts
-COPY database.db /app/database.db
-COPY chroma_store ./chroma_store
 
 ENV PYTHONPATH=/app
 ENV DB_PATH=/app/database.db
