@@ -65,12 +65,6 @@ async def ask_rag(message: str, history: list) -> str:
         return f"❌ Desculpe, ocorreu um erro ao consultar os pergaminhos: {str(e)}"
 
 
-# Construção da interface Gradio
-theme = gr.themes.Soft(
-    primary_hue="red",
-    secondary_hue="neutral",
-)
-
 with gr.Blocks(title="Uma RAG de Gelo e Fogo") as demo:
     gr.Markdown(
         """
