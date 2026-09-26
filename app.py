@@ -3,17 +3,18 @@ import sys
 import asyncio
 import logging
 import chromadb
-import uvicorn
 import gradio as gr
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
+from fastapi import Request
 
 sys.path.append(os.path.dirname(__file__))
 
-from app.config import CHROMA_PATH, COLLECTION_NAME, GROQ_API_KEY
-from app.main import app
+from app.config import CHROMA_PATH, COLLECTION_NAME, GROQ_API_KEY, API_KEY
+from app.routes.chat import router as chat_router, _merge_results
 from app.services.query_expansion import expand_queries
 from app.services.retrieval import search
 from app.services.generation import generate
-from app.routes.chat import _merge_results
 
 logger = logging.getLogger("rag_app")
 
@@ -65,6 +66,7 @@ async def ask_rag(message: str, history: list) -> str:
         return f"❌ Desculpe, ocorreu um erro ao consultar os pergaminhos: {str(e)}"
 
 
+# Construção da interface Gradio
 with gr.Blocks(title="Uma RAG de Gelo e Fogo") as demo:
     gr.Markdown(
         """
@@ -84,11 +86,49 @@ with gr.Blocks(title="Uma RAG de Gelo e Fogo") as demo:
         ],
     )
 
-# Monta a UI do Gradio na raiz da aplicação FastAPI mantendo os endpoints REST (/api/chat, /health)
-app = gr.mount_gradio_app(app, demo, path="/")
+# 1. Configurar CORS na aplicação FastAPI interna do Gradio
+demo.app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# No Hugging Face Spaces, a plataforma já sobe o servidor na porta 7860 automaticamente.
-# Executamos o uvicorn manualmente apenas em desenvolvimento local.
-if __name__ == "__main__" and not os.getenv("SPACE_ID"):
-    port = int(os.getenv("PORT", 7860))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+# 2. Middleware de autenticação opcional para rotas /api/*
+@demo.app.middleware("http")
+async def validate_api_key(request: Request, call_next):
+    if request.url.path == "/health":
+        return await call_next(request)
+    if API_KEY and request.url.path.startswith("/api/"):
+        auth = request.headers.get("Authorization", "")
+        if not auth.startswith("Bearer ") or auth.removeprefix("Bearer ") != API_KEY:
+            return JSONResponse(
+                status_code=401,
+                content={"error": "Não autorizado. Header 'Authorization: Bearer <token>' é obrigatório."},
+            )
+    return await call_next(request)
+
+# 3. Incluir endpoints REST para o Backend Node.js
+demo.app.include_router(chat_router, prefix="/api")
+
+@demo.app.get("/health")
+async def health():
+    chroma_ok = False
+    try:
+        client = chromadb.PersistentClient(path=CHROMA_PATH)
+        client.heartbeat()
+        chroma_ok = True
+    except Exception:
+        pass
+
+    return {
+        "status": "ok",
+        "chromadb": chroma_ok,
+        "groq_configured": bool(GROQ_API_KEY),
+        "auth_enabled": bool(API_KEY),
+    }
+
+# 4. Iniciar via demo.launch() — o método nativo esperado pelo Hugging Face Spaces
+if __name__ == "__main__":
+    demo.launch(server_name="0.0.0.0", server_port=7860)
