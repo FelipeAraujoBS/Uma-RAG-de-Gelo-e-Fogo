@@ -87,6 +87,8 @@ with gr.Blocks(title="Uma RAG de Gelo e Fogo") as demo:
 # Monta a UI do Gradio na raiz da aplicação FastAPI mantendo os endpoints REST (/api/chat, /health)
 app = gr.mount_gradio_app(app, demo, path="/")
 
-if __name__ == "__main__":
+# No Hugging Face Spaces, a plataforma já sobe o servidor na porta 7860 automaticamente.
+# Executamos o uvicorn manualmente apenas em desenvolvimento local.
+if __name__ == "__main__" and not os.getenv("SPACE_ID"):
     port = int(os.getenv("PORT", 7860))
     uvicorn.run(app, host="0.0.0.0", port=port)
