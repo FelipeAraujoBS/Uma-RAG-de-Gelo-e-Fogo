@@ -35,7 +35,7 @@ app.add_middleware(
 async def validate_api_key(request: Request, call_next):
     if request.url.path == "/health":
         return await call_next(request)
-    if API_KEY:
+    if API_KEY and request.url.path.startswith("/api/"):
         auth = request.headers.get("Authorization", "")
         if not auth.startswith("Bearer ") or auth.removeprefix("Bearer ") != API_KEY:
             return JSONResponse(
