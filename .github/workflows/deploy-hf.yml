@@ -17,6 +17,9 @@ jobs:
 
       - name: Push to Hugging Face Spaces
         run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout --orphan hf-deploy
+          git commit -m "deploy: update space"
           git remote add hf https://user:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/${{ vars.HF_SPACE_NAME }}
-          git lfs push hf HEAD
-          git push hf HEAD:main --force
+          git push hf hf-deploy:main --force
