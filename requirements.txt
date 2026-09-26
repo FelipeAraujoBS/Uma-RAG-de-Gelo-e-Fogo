@@ -8,4 +8,4 @@ rank-bm25
 nltk
 numpy
 slowapi
-gradio>=4.0.0
+gradio>=4.40.0,<5.0.0
