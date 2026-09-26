@@ -18,5 +18,5 @@ jobs:
       - name: Push to Hugging Face Spaces
         run: |
           git remote add hf https://user:${{ secrets.HF_TOKEN }}@huggingface.co/spaces/${{ vars.HF_SPACE_NAME }}
-          git lfs push --all hf
+          git lfs push hf HEAD
           git push hf HEAD:main --force
