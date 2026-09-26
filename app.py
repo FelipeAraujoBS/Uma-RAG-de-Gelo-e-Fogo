@@ -71,7 +71,7 @@ theme = gr.themes.Soft(
     secondary_hue="neutral",
 )
 
-with gr.Blocks(theme=theme, title="Uma RAG de Gelo e Fogo") as demo:
+with gr.Blocks(title="Uma RAG de Gelo e Fogo") as demo:
     gr.Markdown(
         """
         # 🐺 Uma RAG de Gelo e Fogo
@@ -81,6 +81,7 @@ with gr.Blocks(theme=theme, title="Uma RAG de Gelo e Fogo") as demo:
     )
     gr.ChatInterface(
         fn=ask_rag,
+        cache_examples=False,
         examples=[
             "Quem matou o Rei Louco?",
             "Quais são as palavras da Casa Stark?",
