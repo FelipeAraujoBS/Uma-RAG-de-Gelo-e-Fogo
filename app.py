@@ -147,4 +147,4 @@ async def health():
 
 # 4. Iniciar via demo.launch() — o método nativo esperado pelo Hugging Face Spaces
 if __name__ == "__main__":
-    demo.launch(server_name="0.0.0.0", server_port=7860, ssr_mode=False)
+    demo.launch(server_name="0.0.0.0", server_port=int(os.getenv("PORT", "7860")), ssr_mode=False)
