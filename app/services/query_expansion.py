@@ -1,5 +1,5 @@
 from openai import AsyncOpenAI
-from app.config import GROQ_API_KEY
+from app.config import GROQ_API_KEY, GROQ_MODEL
 
 _rewrite_client = AsyncOpenAI(
     api_key=GROQ_API_KEY,
@@ -9,7 +9,7 @@ _rewrite_client = AsyncOpenAI(
 
 async def expand_queries(question: str) -> list[str]:
     resp = await _rewrite_client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
+        model=GROQ_MODEL,
         temperature=0.0,
         messages=[
             {
