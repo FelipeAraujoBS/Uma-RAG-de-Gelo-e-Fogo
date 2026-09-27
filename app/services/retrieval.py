@@ -112,6 +112,23 @@ def _init_models():
                 _reranker = CrossEncoder(RERANKER_MODEL)
 
 
+try:
+    import spaces
+except ImportError:
+    class spaces:
+        @staticmethod
+        def GPU(func=None, *args, **kwargs):
+            if func is not None:
+                return func
+            return lambda f: f
+
+
+@spaces.GPU
+def encode_query(text: str) -> list[float]:
+    _init_models()
+    return _sentence_model.encode(text).tolist()
+
+
 def _init_bm25():
     global _bm25_cache
     if _bm25_cache is not None:
@@ -173,9 +190,9 @@ def search(question: str, n_results: int = 20) -> dict:
     id_to_idx = {doc_id: i for i, doc_id in enumerate(all_ids)}
 
     t3 = time.time()
-    query_emb = _sentence_model.encode(
+    query_emb = encode_query(
         f"Represent this sentence for searching relevant passages: {question}"
-    ).tolist()
+    )
     print(f"[TIMING] Embedding da query = {time.time() - t3:.2f}s", flush=True)
 
     t4 = time.time()

@@ -32,6 +32,22 @@ except Exception as e:
     print(f"[STARTUP] AVISO: chroma_store indisponível ({e}). Sistema usará FTS5 fallback.", flush=True)
 
 
+try:
+    import spaces
+except ImportError:
+    class spaces:
+        @staticmethod
+        def GPU(func=None, *args, **kwargs):
+            if func is not None:
+                return func
+            return lambda f: f
+
+
+@spaces.GPU
+def run_retrieval(query: str):
+    return search(query)
+
+
 async def ask_rag(message: str, history: list) -> str:
     """Função de resposta para a interface Gradio."""
     if not message or not message.strip():
@@ -39,7 +55,7 @@ async def ask_rag(message: str, history: list) -> str:
 
     try:
         queries = await expand_queries(message)
-        tasks = [asyncio.to_thread(search, q) for q in queries]
+        tasks = [asyncio.to_thread(run_retrieval, q) for q in queries]
         all_results = await asyncio.gather(*tasks)
         results = _merge_results(all_results)
 
